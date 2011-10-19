@@ -1,5 +1,4 @@
 function [ber,r] = bpskmod(snr_db)
-% передающая часть
 %clc, clear ;
 %snr_db = 0 ;
 N = get_num_iter(snr_db) ;
@@ -17,11 +16,11 @@ for n=1:N
         x((n-1)*M+1:n*M) = cos1(:) ;
     end        
 end
-% модель канала
+% channel model
 signoise = 0.5/10^(snr_db/10) ;
 noise = randn(size(x))*sqrt(signoise*M/2) ;
 y = x + noise ;
-% приемник
+% receiver
 r = zeros(size(b)) ;
 rb = zeros(size(b)) ;
 e1 = exp(-1j*2*pi*fs/fd*(0:M-1)) ;
