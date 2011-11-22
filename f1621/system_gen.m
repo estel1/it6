@@ -5,6 +5,7 @@
 % dependencies: Control System Toolbox
 % this function produces diff. equation on the 
 % TEX-compatible form and store it into clipboard
+% -&*-
 function system_gen(varargin)
 if nargin==0
     main() ;
