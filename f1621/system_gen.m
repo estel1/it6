@@ -39,8 +39,8 @@ figPos(4) = 500 ;
 set(fig,'Position',figPos) ;
 obj.axes_polezeros = axes() ;
 set(obj.axes_polezeros,'Position',[0.03 0.5 0.43 0.45],'ButtonDownFcn','system_gen(1)') ;
-xlim([-20 5]) ;
-ylim([-10 10]) ;
+xlim([-10 2]) ;
+ylim([-15 15]) ;
 text(-15,2,'Click here','FontSize',14) ;
 title('Pole-zero plot') ;
 plot_zeropoles_axes() ;
@@ -154,9 +154,9 @@ clipboard('copy', str ) ;
 
 
 function plot_zeropoles_axes()
-rectangle('Position',[0.1,-10,5,20],'FaceColor',[0.9 .5 .5],...
+rectangle('Position',[0.02,-15,2,30],'FaceColor',[0.9 .5 .5],...
     'EraseMode','Xor','HitTest','off') ;
-line([0 0],[-10 10],'LineStyle','-','Color',[0.1 0.1 0.1],'LineWidth',2,'HitTest','off') ;
+line([0 0],[-15 15],'LineStyle','-','Color',[0.1 0.1 0.1],'LineWidth',2,'HitTest','off') ;
 line([-20 10],[0 0],'LineStyle','-','Color',[0.1 0.1 0.1],'LineWidth',2,'HitTest','off') ;
 
 function OnToolBarButton_InputMode(newMode)
