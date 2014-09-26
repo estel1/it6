@@ -1,0 +1,176 @@
+\documentclass[a4paper]{article}
+%\documentclass[twocolumn,a4paper]{proc}
+\usepackage[T2A]{fontenc}
+\usepackage[cp1251]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[cmex10]{amsmath}
+\usepackage{amsfonts}
+\usepackage{pscyr}
+%\usepackage{fancyhdr}
+%\pagestyle{fancy}
+\renewcommand{\rmdefault}{fjn}
+\setlength{\textwidth}{170mm}
+\setlength{\textheight}{240mm}
+\voffset=-20mm
+\hoffset=-20mm
+\title{Расчет вероятности битовой ошибки при когерентном детектировании}
+%\lhead{Кафедра "Управление и моделирование систем"}
+%\lfoot{Семинар 1}
+\begin{document}
+\maketitle
+\begin{abstract}
+Рассматриваются методы расчета вероятности битовой ошибки при когерентном 
+приеме для различных типов цифровой модуляции.
+\end{abstract}
+\section{Сведения из теории, необходимые для семинара}
+Если $x$-случайная величина, а t изменяется от $-\infty$ до $+\infty$,
+то вероятность события $x<t$ представляет собой неубывающую непрерывную 
+слева функцию от $t$, называемую \emph{функцией распределения} $F(t)$ 
+величины $x$ \cite{wan_der_Waerden1}:
+\begin{equation}
+\label{eqn_1}
+F(t)=P(x<t)
+\end{equation}
+Функция $F(t)$ стремится к нулю при $t\rightarrow-\infty$ и к еденице 
+при $t\rightarrow\infty$.
+Если $F(t)$ непрерывно дифференцируема $F'(t)=f(t)$, то
+\begin{equation}
+\label{eqn_2}
+P(a\leq x<b)=F(b)-F(a)=\int\limits_{a}^{b}f(t)dt
+\end{equation}
+Из (\ref{eqn_2}) предельным переходом при $a\rightarrow-\infty$ получаем
+\begin{equation}
+\label{eqn_3}
+P(x<b)=F(b)=\int\limits_{-\infty}^{b}f(t)dt
+\end{equation}
+Откуда предельным переходом при $b\rightarrow\infty$ находим:
+\begin{equation}
+\label{eqn_4}
+\int\limits_{-\infty}^{\infty}f(t)dt=1
+\end{equation}
+Функция $f(t)$ называется плотностью вероятности величины $x$. 
+Известным примером плотности вероятности является гауссова \emph{функция ошибок}:
+\begin{equation}
+\label{eqn_5}
+f(t)=\frac{1}{c\sqrt{2\pi}}e^{-\frac{(t-a)^2}{2c^2}}
+\end{equation}
+Рассматривая вместо $x$ величину $(x-a)/c$, можно для этой величины 
+получить плотность вероятности более простого вида:
+\begin{equation}
+\label{eqn_6}
+f(t)=\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}t^2}
+\end{equation}
+Соответствующая функция распределения имеет вид:
+\begin{equation}
+\label{eqn_7}
+\varPhi(t)=\frac{1}{\sqrt{2\pi}}\int\limits_{-\infty}^te^{-\frac{1}{2}\tau^2d\tau}
+\end{equation}
+Название ``гауссова функция ошибок'' основано на том, что, по Гауссу, 
+плотность вероятности для случайных ошибок астрономических наблюдений 
+выражается формулой (\ref{eqn_5}). Для вычисления интеграла ошибок 
+(\ref{eqn_6}) при не слишком больших значениях $t$ плотность $f(t)$
+разлагают в бесконечный ряд 
+\begin{equation}
+\label{eqn_8}
+f(t)=\frac{1}{2\sqrt{2\pi}}\left(1-\frac{t^2}{2}+\frac{t^4}{2!2^2}-\frac{t^6}{3!2^3}+\ldots\right)
+\end{equation}
+и интегрируют
+\begin{equation}
+\label{eqn_9}
+\varPhi(t)=\frac{1}{2}+\frac{1}{2\sqrt{2\pi}}\left(t-\frac{t^3}{2\cdot3}+\frac{t^5}{2!2^2\cdot5}-\ldots\right)
+\end{equation}
+Для больших $t$ имеется асимптотическое разложение, которое получается следующим 
+образом. Имеем 
+\begin{equation}
+\label{eqn_10}
+1-\varPhi(t)=\frac{1}{\sqrt{2\pi}}\int\limits_t^\infty e^{-\frac{1}{2}\tau^2}d\tau
+\end{equation}
+если положить $\tau^2/2=x$ и $t^2/2=u$, то интеграл примет вид:
+\begin{equation}
+\label{eqn_11}
+\frac{1}{2\sqrt{\pi}}\int\limits_u^\infty e^{-x}x^{-\frac{1}{2}}dx
+\end{equation}
+Интегрируя по частям, найдем
+\begin{equation}
+\label{eqn_12}
+\int\limits_u^\infty e^{-x}x^{-\frac{1}{2}}dx=
+e^{-u}u^{-\frac{1}{2}}-1\frac{1}{2}\int\limits_u^\infty e^{-x}x^{-\frac{3}{2}}dx=
+e^{-u}u^{-\frac{1}{2}}-R_1
+\end{equation}
+где $-R_1$ - отрицательный остаточный член. Для того чтобы оценить $R_1$ сверху,
+интегрируем по частям еще раз:
+\begin{equation}
+\label{eqn_13}
+R_1=\frac{1}{2}\int\limits_u^\infty e^{-x}x^{-\frac{3}{2}}dx=\frac{1}{2}e^{-u}u^{-\frac{3}{2}}-\frac{1}{2}\cdot\frac{3}{2}\int_u^\infty e^{-x}x^{-\frac{5}{2}}dx<\frac{1}{2}e^{-u}u^{-\frac{3}{2}}
+\end{equation}
+Если (\ref{eqn_12}) подставить в (\ref{eqn_11}), то получится искомая 
+асимптотическая формула
+\begin{equation}
+\varPhi(t)=1-\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}t^2}\left(\frac{1}{t}-S_1\right)
+\end{equation}
+\begin{equation}
+0<S_1<\frac{1}{t^3} \nonumber
+\end{equation}
+Если необходимо ограничить остаток величиной $\frac{1}{t^5}$, то следует 
+проинтегрировать $R_1$ по частям еще раз.
+\begin{equation}
+0<S_1<\frac{1}{t^3} \nonumber
+\end{equation}
+Точки перегиба кривой с уравнением (\ref{eqn_6}) имеют абсциссы $t=\pm1$, 
+так как вторая производная
+\begin{equation}
+y''=\frac{t^2-1}{\sqrt{2\pi}}e^{-\frac{1}{2}t^2} \nonumber
+\end{equation}
+С ростом $t$ функция $f(t)$ очень быстро убывает. На интервал от
+$-2$ до $+2$ приходится более 95\% общей площади, расположенной между кривой
+и осью абсцисс, на интервал от $-3$ до $+3$ около 99.7\%, а на интервал 
+от $-4$ до $+4$  - только немногоим менее 100\%. Таким образом, для всех 
+практических целей можно ограничиться интервалом от $-3$ до $+3$. 
+
+Все функции распределения, для которых плотности вероятности задаются 
+формулой вида (\ref{eqn_5}), называются \emph{функциями нормального 
+распределения}. Постоянная $a$ указывает абсциссу точки максимума 
+функции f(t), а постоянная $c$ - расстояние между проекциями точки 
+максимума и точки перегиба на ось абсцисс.
+
+В программной среде MATLAB есть две функции для вычисления 
+интеграла ошибок.
+Функция erf(x) вычисляет значение определенного интеграла
+\begin{equation}
+\text{erf}(t)=\frac{2}{\sqrt{\pi}}\int\limits_0^te^{-\tau^2}d\tau. \nonumber
+\end{equation}
+Функция erfc(x) 
+\begin{equation}
+\text{erfc}(t)=\frac{2}{\sqrt{\pi}}\int\limits_t^\infty e^{-\tau^2}d\tau = 1-\text{erf}(t). \nonumber
+\end{equation}
+Пользуясь функцией erf(x) можно получить значение $\varPhi(t)$. Для этого можно 
+воспользоваться следующими соотношениями.
+\begin{equation}
+\int\limits_{-\infty}^\infty e^{-\frac{1}{2}t^2}dt=\sqrt{2}\cdot\Gamma(\frac{1}{2}).  \nonumber
+\end{equation}
+здесь Эйлерова Гамма-функция \cite{wan_der_Waerden1} $\Gamma(z+1)$ для $z+1>0$ (или, 
+в случае комплексного аргумента z, для $Re\left[z+1\right]>0$) задается формулой:
+\begin{equation}
+\Gamma(z+1)=\int\limits_0^\infty x^ze^{-x}dx
+\end{equation}
+После подстановки пределов интегрирования $0$ и $\infty$ и в предположении, что
+$z>0$, находим:
+\begin{equation}
+\Gamma(z+1)=z\cdot\Gamma(z+1)
+\end{equation}
+
+\begin{equation}
+\varPhi(t)=\frac{1}{2}+\frac{1}{2}\cdot\text{erf}(\frac{t}{\sqrt{2}}). \nonumber
+\end{equation}
+
+\begin{thebibliography}{1}
+\bibitem{wan_der_Waerden1} 
+Б.Л. ван дер Варден, Математическая статистика. М.,ИЛ, 1960.
+\bibitem{Pestryakov2} 
+Пестряков В.Б., Шумоподобные сигналы в системах передачи информации. - М., ``Советское Радио'' , 1973.
+\bibitem{Sclar3} 
+Скляр Б., Цифровая связь. Теоретические основы и практическое применение. - ``Вильямс'', 2007.
+\end{thebibliography}
+\end{document}
+
+
