@@ -1,0 +1,13 @@
+clc, clear all ;
+x = -3:0.1:3 ;
+E = -1 ;
+c = 0.5 ;
+hold off, plot(x,1/(c*sqrt(2*pi))*exp(-(x-E).^2/(2*c^2))) ;
+E = 1 ;
+c = 0.5 ;
+hold on, plot(x,1/(c*sqrt(2*pi))*exp(-(x-E).^2/(2*c^2))) ;
+x = 0:0.1:3 ;
+E = -1 ;
+c = 0.5 ;
+area(x,1/(c*sqrt(2*pi))*exp(-(x-E).^2/(2*c^2)),'FaceColor',[1 0.6 0.6]) ;
+grid on ;

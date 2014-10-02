@@ -4,6 +4,7 @@
 \usepackage[cp1251]{inputenc}
 \usepackage[russian]{babel}
 \usepackage[cmex10]{amsmath}
+\usepackage[pdftex]{graphics}
 \usepackage{amsfonts}
 \usepackage{pscyr}
 %\usepackage{fancyhdr}
@@ -162,6 +163,19 @@ $z>0$, находим:
 \begin{equation}
 \varPhi(t)=\frac{1}{2}+\frac{1}{2}\cdot\text{erf}(\frac{t}{\sqrt{2}}). \nonumber
 \end{equation}
+
+\section{Расчет вероятности битовой ошибки для BPSK}
+При использовании бинарной фазовой модуляции в канале с аддитивной 
+гаусовой помехой сигнал на выходе коррелятора можно рассматривать как 
+случайную величину с нормальным законом распределения, с мат. ожиданием 
+$\pm E_s$ и дисперсией $c^2$.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3.3in]{figure1.pdf}
+\caption{Iterative Detection using MMSE kernel}
+\label{fig_iterative}
+\end{figure}
 
 \begin{thebibliography}{1}
 \bibitem{wan_der_Waerden1} 
