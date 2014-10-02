@@ -40,6 +40,7 @@ function main(x,wndsize)
     obj.cursor = -1 ;
     set(gcf,'UserData',obj) ;
     set(obj.timeplot,'ButtonDownFcn','fskview(123456)') ;
+    %set(gcf,'WindowButtonMotionFcn','fskview(123456)') ;
     set_cursor(obj.W+1) ;
 end
 
@@ -70,7 +71,13 @@ function set_cursor(cursor)
     end
     
     xw = obj.data(leftt:rightt-1) ;
-    axes(obj.freqplot) ; demod_fsk(xw) ;
+    axes(obj.freqplot) ; [status, bits]=demod_fsk(xw) ;
+    if status==1
+        fprintf('Recv.msg.:%s\n',bits) ;
+        set(gcf,'Name',sprintf('FskView: %s',bits)) ;
+    else
+        set(gcf,'Name','FskView: -no msgs.') ;
+    end
     set(gcf,'UserData',obj) ;
 end
 
@@ -82,7 +89,7 @@ function [status, bits] = demod_fsk(rxbuf)
     for k=3:1:N
         r(k) = rxbuf(k)*(0.9420*rxbuf(k-1) + 0.1989*rxbuf(k-2)) ;
     end
-    bph = fir2(128,[0 300/4000 400/4000 4000/4000],[ 1 1 0 0]) ;
+    bph = fir2(128,[0 400/4000 500/4000 4000/4000],[ 1 1 0 0]) ;
     r0 = 10*filter(bph,1,r) ;
     %r0(1:64) = 0 ;
     %r0 = r0(64:end) ;
@@ -130,7 +137,8 @@ function [status, bits] = demod_fsk(rxbuf)
             end
         end
         hold off, plot(rxbuf,'Color',[0.8 0.8 1]), grid on ;
-        hold on, plot(r0), grid on, hold on, plot(rc,'r-')
+        hold on, plot(r0), grid on, hold on, plot(rc,'r-') ;
+        %xlim([1 length(rxbuf)]) ;
     else
         status = 0 ;
         bits = '' ;

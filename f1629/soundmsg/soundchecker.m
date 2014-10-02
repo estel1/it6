@@ -8,13 +8,20 @@ function soundchecker()
         rxbuf = get_sound_message('10101010101011100001010101010101110000') ;
         rxbuf = [randn(1200,1);rxbuf;randn(1000,1);] ;
         %rxbuf = rxbuf+randn(size(rxbuf))*0.4 ;
+        load sound3_300 ;
+        
+        bph = fir2(128,[0 1700/4000 1800/4000 4000/4000],[ 0.5 0.5 3 3]) ;
+        rxbuf = filter(bph,1,rxbuf) ;
+        %rxbuf = rxbuf(3500:7500) ;
     end
     t = 0 ;
     while t<length(rxbuf)-2500
         [status, bits] = demod_fsk(rxbuf(1+t:t+2500)) ;
         t = t + 2500 ;
         if status==1
-            fprintf('Recv. msg: %s\n', bits) ;
+            if ~isempty(strfind(bits(:)','10101010'))
+                fprintf('Message received!\n') ;
+            end
         end
     end
 end
@@ -63,7 +70,7 @@ function [status, bits] = demod_fsk(rxbuf)
         rc = r0 ;
         rc(1:data_offset) = 0 ;
         num_bits = fix((length(r0)-data_offset-bit_shift)/bit_samples) ;
-        bits = repmat('x',num_bits,1) ;
+        bits = repmat('x',1,num_bits) ;
         d0 = 5 ;
         for k=1:num_bits
             symbol = mean(r0(data_offset+bit_shift+(k-1)*bit_samples+1+d0:data_offset+bit_shift+k*bit_samples-d0)) ;
@@ -91,10 +98,11 @@ function s = get_sound_message(msg)
     s = zeros(length(msg)*bit_samples,1) ;
     phase = 0 ;
     for n=1:length(s)
-        s(n) = cos(phase) ;
         if msg(fix((n-1)/bit_samples)+1)=='1'
+            s(n) = cos(phase) ;
             phase = phase + 2*pi*(fs-100)/fd ;
         else
+            s(n) = cos(phase) ;
             phase = phase + 2*pi*(fs+100)/fd ;
         end
     end
