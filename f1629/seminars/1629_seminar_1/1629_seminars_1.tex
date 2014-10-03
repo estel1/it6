@@ -168,14 +168,17 @@ $z>0$, находим:
 ѕри использовании бинарной фазовой модул€ции в канале с аддитивной 
 гаусовой помехой сигнал на выходе коррел€тора можно рассматривать как 
 случайную величину с нормальным законом распределени€, с мат. ожиданием 
-$\pm E_s$ и дисперсией $c^2$.
+$\pm E$ и дисперсией $c^2$. ¬еро€тность ошибочного детектировани€
+символа 
+\begin{equation}
+P_s=\frac{1}{c\sqrt{2\pi}}\int\limits_0^{\infty}e^{-\frac{(t+E)^2}{2c^2}}dt
+\end{equation}
+«амена переменной $u=\frac{t+E}{c\sqrt2}$, $dt=c\sqrt2 du$ позвол€ет перейти к интегралу
+\begin{equation}
+P_s=\frac{1}{\sqrt{\pi}}\int\limits_{\frac{E}{c\sqrt2}}^{\infty}e^{-u^2}du=\frac{1}{2}\text{erfc}\left(\frac{E}{c\sqrt2}\right)
+\end{equation}
+ƒл€ модул€ции BPSK веро€тность ошибки бита и веро€тность ошибки символа совпадают.
 
-\begin{figure}[!t]
-\centering
-\includegraphics[width=3.3in]{figure1.pdf}
-\caption{Iterative Detection using MMSE kernel}
-\label{fig_iterative}
-\end{figure}
 
 \begin{thebibliography}{1}
 \bibitem{wan_der_Waerden1} 
