@@ -1,0 +1,95 @@
+\documentclass[a4paper]{article}
+%\documentclass[twocolumn,a4paper]{proc}
+\usepackage[T2A]{fontenc}
+\usepackage[cp1251]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[cmex10]{amsmath}
+\usepackage{amsfonts}
+\usepackage{pscyr}
+%\usepackage{fancyhdr}
+%\pagestyle{fancy}
+\renewcommand{\rmdefault}{fjn}
+\setlength{\textwidth}{170mm}
+\setlength{\textheight}{240mm}
+\voffset=-20mm
+\hoffset=-20mm
+\title{Оптимальное распознавание и обнаружение сигналов}
+%\lhead{Кафедра "Управление и моделирование систем"}
+%\lfoot{Семинар 1}
+\begin{document}
+\maketitle
+\begin{abstract}
+Рассматриваются общие принципы построения алгоритмов обнаружения сигналов 
+на фоне аддитивной помехи. Вводятся понятия вероятности обнаружения, функции 
+риска и отношения правдоподобия.
+\end{abstract}
+\section{Элементы теории принятия решений}
+Будем предполагать, что алгоритм обнаружения располагает данными 
+$x_1,x_2,\ldots,x_k$ представляющими отсчеты сигнала на интервале времени $T$. 
+После обработки принимается решение о наличии сигнала (гипотеза $\Gamma_s$)
+или об отсутствии сигнала (гипотеза $\Gamma_0$). Следуя \cite{Pestryakov2} введем обозначения: 
+$P(\Gamma_s/0)=P_{fa}$ - условная вероятность ошибочного решения о наличии сигнала при его отсутствии 
+(вероятность ложного срабатывания, False Alarm Probability). $P(\Gamma_0/s)=P_{los}$-условная
+вероятность ошибочного решения об отсутствии сигнала при его наличии. Для каждого из ошибочных
+решений устанавливается цена, определяющая вредные последствия: $r_{los}$-цена пропуска сигнала.
+$r_{fa}$-цена ложного срабатывания. Произведение вероятности ошибочного решения на его цену 
+принято называть риском. Сумма всех рисков, соответствующих ошибочным решениям, определяет 
+средний риск $\rho$. В задаче обнаружения единственного сигнала средний риск определяется 
+выражением:
+\begin{equation}
+\label{eqn_rho}
+\rho = P_{fa}r_{fa}+P_{los}r_{los}
+\end{equation}
+Принятие решения о наличии сигнала сопровождается минимальным средним риском $\rho^*$, если
+выполняется условие.
+\begin{equation}
+\label{eqn_likelihood}
+l(x)=\frac{f_s(x_1,x_2,\ldots,x_k)}{f_n(x_1,x_2,\ldots,x_k)}>\Pi
+\end{equation}
+где $\Pi=r_{los}P(s)/r_{fa}P(0)$ - порог. $P(s)$ - априорная вероятность наличия сигнала. 
+$P(0)$ - априорная вероятность отсутствия сигнала. Если априорные вероятности и цены нежелательных
+решений равны, то порог $\Pi=1$.
+  
+\section{Обнаружение сигнала с неизвестной амплитудой}
+Многомерная плотность распределения гауссового шума \cite{Pestryakov2}:
+\begin{equation}
+\label{eqn_1}
+f_n(x_1,x_2,\ldots,x_k)=\frac{1}{(2\pi)^{K/2}c^K}\exp\left(-\frac{1}{2c^2}\sum\limits_{n=1}^Kx^2_n\right)
+\end{equation}
+Плотность распределения смеси гауссового шума и полезного сигнала $a_ss_n$:
+\begin{equation}
+\label{eqn_2}
+f_s(x_1,x_2,\ldots,x_k)=\frac{1}{(2\pi)^{K/2}c^K}\exp\left(-\frac{1}{2c^2}\sum\limits_{n=1}^K(x_n-a_ss_n)^2\right)
+\end{equation}
+Отношение правдоподобия 
+\begin{align}
+\label{eqn_3}
+l(x)&=\frac{f_s(x_1,x_2,\ldots,x_k)}{f_n(x_1,x_2,\ldots,x_k)}=\frac{\exp\left(-\frac{1}{2c^2}\sum\limits_{n=1}^K(x_n-a_ss_n)^2\right)}{\exp\left(-\frac{1}{2c^2}\sum\limits_{n=1}^Kx^2_n\right)} \nonumber \\
+&\exp\left(\frac{1}{2c^2}\sum\limits_{n=1}^K(-x_n^2+2a_ss_nx_n-a_s^2s_n^2)+\frac{1}{2c^2}\sum\limits_{n=1}^Kx^2_n\right)= \\
+&\exp\left(\frac{1}{2c^2}\sum\limits_{n=1}^K(2a_ss_nx_n-a_s^2s_n^2)\right)=\exp\left(\frac{1}{2c^2}\sum\limits_{n=1}^K2a_ss_nx_n - \frac{1}{2c^2}\sum\limits_{n=1}^Ka_s^2s_n^2\right)= \nonumber \\
+&\exp\left(\frac{1}{c^2}\sum\limits_{n=1}^Ka_ss_nx_n - \frac{E_s}{2c^2}\right) \nonumber
+\end{align}
+Для принятия решения о наличии сигнала в соответствии с критерием минимума функции риска должно выполняться условие.
+\begin{equation}
+\exp\left(\frac{1}{c^2}\sum\limits_{n=1}^Ka_ss_nx_n - \frac{E_s}{2c^2}\right)>\Pi
+\end{equation}
+После логарифмирования обеих частей неравенства
+\begin{equation}
+\frac{1}{c^2}\sum\limits_{n=1}^Ka_ss_nx_n - \frac{E_s}{2c^2}>\ln\Pi
+\end{equation}
+Пусть априорные вероятности наличия и отсутствия сигнала равны $P(0)=P(s)=0.5$, дополнительно пусть 
+последствия обоих неправильных решений ведут к одной стоимости $r_{los}=r_{fa}$, тогда решающее правило
+\begin{equation}
+\sum\limits_{n=1}^Ka_ss_nx_n > \frac{E_s}{2}
+\end{equation}
+\begin{thebibliography}{1}
+\bibitem{wan_der_Waerden1} 
+Б.Л. ван дер Варден, Математическая статистика. М.,ИЛ, 1960.
+\bibitem{Pestryakov2} 
+Пестряков В.Б., Шумоподобные сигналы в системах передачи информации. - М., ``Советское Радио'' , 1973.
+\bibitem{Sclar3} 
+Скляр Б., Цифровая связь. Теоретические основы и практическое применение. - ``Вильямс'', 2007.
+\end{thebibliography}
+\end{document}
+
+
