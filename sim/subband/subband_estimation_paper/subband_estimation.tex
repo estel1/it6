@@ -7,10 +7,10 @@
 \usepackage{amsfonts}
 \usepackage[pdftex]{graphicx}
 %\usepackage{pscyr}
-%\usepackage{times}
+\usepackage{times}
 %\usepackage{fancyhdr}
 %\pagestyle{fancy}
-%\renewcommand{\rmdefault}{fjn}
+\renewcommand{\rmdefault}{fjn}
 \setlength{\textwidth}{170mm}
 \setlength{\textheight}{240mm}
 \voffset=-20mm
@@ -21,24 +21,29 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-Рассматривается метод получения оценки автокорреляционной функции (АКФ) сигнала в 
-ограниченной частотной области.
+В статье рассматриваются методы повышения точности алгоритма итеративного вычисления АКФ.
 \end{abstract}
 \section{Алгоритм итеративного вычисления АКФ}
 Алгоритм итеративного вычисления АКФ и его реализация на основе процедуры быстрого
-преобразования Фурье подробно рассмотрены в работах []. Для сигналов с ярко
+преобразования Фурье подробно рассмотрены в работах \cite{Nikiforov1}, \cite{Nikiforov2}, \cite{Nikiforov3}, \cite{Nikiforov4}. Для сигналов с ярко
 выраженным линейчатым спектром такой алгоритм позволяет значительно повысить 
 отношение сигнал-шум. Недостатком метода является ограниченная спектральная 
-селективность: чем больше наращивается ОСШ тем сильнее линии спектра притягиваются 
-к дискретным спектральным отсчетам. На графике изображена оценка спектральной
-плотности мощности на фоне аддитивного шума, полученная с использованием указанного 
-алгоритма для разных итераций.
-\begin{figure}[!t]
+селективность: чем больше наращивается ОСШ тем сильнее позиции максимумов СПМ смещаются 
+к дискретным спектральным отсчетам. 
+\begin{figure}[h]
 \centering
 \includegraphics[width=3.3in]{acf_iterat.pdf}
-\caption{Оценка СПМ на разных итерациях}
+\caption{Оценка СПМ для трех итераций алгоритма.}
 \label{fig_iterative}
 \end{figure}
+На графике изображена оценка спектральной
+плотности мощности гармонического сигнала с частотой не кратной частоте дискретизации 
+на фоне аддитивного шума, полученная с использованием указанного 
+алгоритма для разных итераций. Легко заметить что на 3-ей итерации СПМ имеет ярко выраженный 
+пик в точке 22, в то время как итинная СПМ представляет собой равномерно размытую по всем 
+спектральным отсчетам кривую. Для повышения спектрального разрешения итерационного
+алгоритма в данной статье предлагается использовать фильтр специального вида.
+
 
 \section{Описание метода}
 Пусть $x_n=x(Tn)$-дискретная выборка сигнала $x(t)$ с фиксированным шагом $T$. 
@@ -58,14 +63,14 @@ r(\tau)=\frac{1}{2\pi}\int\limits_{\omega_1}^{\omega_2}S(\omega)e^{j\omega\tau}d
 \label{eqn_3}
 S(\omega)=X(\omega)X^*(\omega)=\sum\limits_{n=0}^{N-1}x_ne^{-j\omega n}\sum\limits_{k=0}^{N-1}x^*_ke^{j\omega k}
 \end{equation}
-Пользуясь подходом, развиваемым в работах \cite{Jilakov},\cite{Ursol},\cite{Tuyakov}, преобразуем выражение (\ref{eqn_2}) к виду:
+Пользуясь подходом, развиваемым в работах \cite{Jilakov}-\cite{Tuyakov}, преобразуем выражение (\ref{eqn_2}) к виду:
 \begin{align}
 \label{eqn_4}
-r(\tau) &= \int\limits_{\omega_1}^{\omega_2}S(\omega)e^{j\omega\tau}d\omega=\int\limits_{\omega_1}^{\omega_2}X(\omega)X^*(\omega)e^{j\omega\tau}d\omega= \nonumber \\
-  \int\limits_{\omega_1}^{\omega_2}\sum\limits_{n=0}^{N-1}x_ne^{-j\omega n}&\sum\limits_{k=0}^{N-1}x^*_ke^{j\omega k}e^{j\omega\tau}d\omega=
-   \int\limits_{\omega_1}^{\omega_2}\sum\limits_{n=0}^{N-1}\sum\limits_{k=0}^{N-1}x_ne^{-j\omega n}x^*_ke^{j\omega k}e^{j\omega\tau}d\omega= \\
-  &\sum\limits_{n=0}^{N-1}\sum\limits_{k=0}^{N-1} x_n x^*_k \int\limits_{\omega_1}^{\omega_2} e^{-j\omega n}e^{j\omega k}e^{j\omega\tau}d\omega =
-  \sum\limits_{n=0}^{N-1}\sum\limits_{k=0}^{N-1} x_n x^*_k \Phi(n,k)_{\tau,\omega_1,\omega_2}\nonumber
+r(\tau) &= \frac{1}{2\pi}\int\limits_{\omega_1}^{\omega_2}S(\omega)e^{j\omega\tau}d\omega=\frac{1}{2\pi}\int\limits_{\omega_1}^{\omega_2}X(\omega)X^*(\omega)e^{j\omega\tau}d\omega= \nonumber \\
+  \frac{1}{2\pi}\int\limits_{\omega_1}^{\omega_2}\sum\limits_{n=0}^{N-1}x_ne^{-j\omega n}&\sum\limits_{k=0}^{N-1}x^*_ke^{j\omega k}e^{j\omega\tau}d\omega=
+   \frac{1}{2\pi}\int\limits_{\omega_1}^{\omega_2}\sum\limits_{n=0}^{N-1}\sum\limits_{k=0}^{N-1}x_ne^{-j\omega n}x^*_ke^{j\omega k}e^{j\omega\tau}d\omega= \\
+  \frac{1}{2\pi}&\sum\limits_{n=0}^{N-1}\sum\limits_{k=0}^{N-1} x_n x^*_k \int\limits_{\omega_1}^{\omega_2} e^{-j\omega n}e^{j\omega k}e^{j\omega\tau}d\omega =
+  \frac{1}{2\pi}\sum\limits_{n=0}^{N-1}\sum\limits_{k=0}^{N-1} x_n x^*_k \Phi(n,k)_{\tau,\omega_1,\omega_2}\nonumber
 \end{align}
 Ядро $\Phi(n,k)_{\tau,\omega_1,\omega_2}$ в функционале второго порядка (\ref{eqn_4}) может быть определено аналитически:
 \begin{align}
@@ -87,7 +92,6 @@ r(\tau) &= \int\limits_{\omega_1}^{\omega_2}S(\omega)e^{j\omega\tau}d\omega=\int
 r_p(\tau)=\int\limits_{\omega_1}^{\omega_2}S^p(\omega)e^{j\omega\tau}d\omega
 \end{equation}
 
-Следует отметить, что (\ref{eqn_6}) является субполосной оценкой автокорреляционной функции $p+2$-го порядка. 
 Например, для $p=2$ получим функционал 4-го порядка:
 \begin{equation}
 \label{eqn_7}
@@ -98,7 +102,7 @@ r_4(\tau)=\sum\limits_{n=0}^{N-1}\sum\limits_{k=0}^{N-1}\sum\limits_{m=0}^{N-1}\
 \label{eqn_8}
 \Phi_4(n,k,m,q)_{\tau,\omega_1,\omega_2}=-\frac{j}{k-n+m-p+\tau}\left[e^{j\omega_2(k-n+m-p+\tau)}-e^{j\omega_1(k-n+m-p+\tau)}\right]
 \end{equation}
-Обычная оценка АКФ является частным случаем рассматриваемого функционала при условии что ядро является многомерным аналогом единичной матрицы. 
+Итерационная оценка АКФ является частным случаем рассматриваемого функционала при условии что ядро является многомерным аналогом единичной матрицы. 
 \subsection{Возможные пути снижения вычислительных затрат}
 \begin{enumerate}
 \item 
@@ -111,6 +115,14 @@ r_4(\tau)=\sum\limits_{n=0}^{N-1}\sum\limits_{k=0}^{N-1}\sum\limits_{m=0}^{N-1}\
 это приведет к ленточной матрице.
 \end{enumerate}
 \begin{thebibliography}{1}
+\bibitem{Nikiforov1} 
+Шахтарин Б.И., Сидоркина Ю.А., Никифоров А.А. АЛГОРИТМ ОЦЕНКИ ПАРАМЕТРОВ ШИРОКОПОЛОСНОГО СИГНАЛА НА ОГРАНИЧЕННОМ ИНТЕРВАЛЕ НАБЛЮДЕНИЯ. Научный вестник Московского государственного технического университета гражданской авиации. 2014. № 210 (12). С. 76-80.
+\bibitem{Nikiforov2}
+Никифоров А.А., Мельников А.О., Токарев С.В. ДЕТЕКТИРОВАНИЕ СИГНАЛОВ С РАСШИРЕННЫМ СПЕКТРОМ НА ОСНОВЕ АР МОДЕЛИ. Промышленные АСУ и контроллеры. 2013. № 5. С. 51-54.
+\bibitem{Nikiforov3}
+Никифоров А.А. АЛГОРИТМ ИТЕРАТИВНОГО ВЫЧИСЛЕНИЯ АВТОКОРРЕЛЯЦИОННОЙ ФУНКЦИИ В ЗАДАЧЕ ОЦЕНКИ ЧАСТОТЫ ШИРОКОПОЛОСНОГО СИГНАЛА. Механизация строительства. 2013. № 11 (833). С. 53-55.
+\bibitem{Nikiforov4}
+Никифоров А.А. ЭФФЕКТИВНАЯ РЕАЛИЗАЦИЯ ПРОЦЕДУРЫ ПОСЛЕДОВАТЕЛЬНОГО ВЫЧИСЛЕНИЯ АВТОКОРРЕЛЯЦИОННОЙ ФУНКЦИИ. Образование. Наука. Научные кадры. 2013. № 5. С. 204-207.
 \bibitem{Jilakov} 
 Жиляков Е.Г. Вариационные методы анализа и построения функций 
 по эмпирическим данным: моногр. / Е.Г. Жиляков. – Белгород: Изд-во БелГУ, 2007. – 160 с.
