@@ -1,7 +1,7 @@
 clc, clear all;
 
 N = 128; % 1 мс
-K = 30 ;
+K = 50 ;
 Fs = 128E3; % √ц
 F = 53E3; % √ц
 %X = sin(2*pi*F/Fs*(0:N-1))' + 0.3*randn(N, 1);

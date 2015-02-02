@@ -1,0 +1,124 @@
+\documentclass[a4paper]{article}
+%\documentclass[twocolumn,a4paper]{proc}
+\usepackage[T2A]{fontenc}
+\usepackage[cp1251]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[cmex10]{amsmath}
+\usepackage{amsfonts}
+\usepackage[pdftex]{graphicx}
+%\usepackage{pscyr}
+%\usepackage{times}
+%\usepackage{fancyhdr}
+%\pagestyle{fancy}
+%\renewcommand{\rmdefault}{fjn}
+\setlength{\textwidth}{170mm}
+\setlength{\textheight}{240mm}
+\voffset=-20mm
+\hoffset=-20mm
+\title{Оценка АКФ для сигнала в заданной полосе частот}
+%\lhead{Кафедра "Управление и моделирование систем"}
+%\lfoot{Семинар 1}
+\begin{document}
+\maketitle
+\begin{abstract}
+Рассматривается метод получения оценки автокорреляционной функции (АКФ) сигнала в 
+ограниченной частотной области.
+\end{abstract}
+\section{Алгоритм итеративного вычисления АКФ}
+Алгоритм итеративного вычисления АКФ и его реализация на основе процедуры быстрого
+преобразования Фурье подробно рассмотрены в работах []. Для сигналов с ярко
+выраженным линейчатым спектром такой алгоритм позволяет значительно повысить 
+отношение сигнал-шум. Недостатком метода является ограниченная спектральная 
+селективность: чем больше наращивается ОСШ тем сильнее линии спектра притягиваются 
+к дискретным спектральным отсчетам. На графике изображена оценка спектральной
+плотности мощности на фоне аддитивного шума, полученная с использованием указанного 
+алгоритма для разных итераций.
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3.3in]{acf_iterat.pdf}
+\caption{Оценка СПМ на разных итерациях}
+\label{fig_iterative}
+\end{figure}
+
+\section{Описание метода}
+Пусть $x_n=x(Tn)$-дискретная выборка сигнала $x(t)$ с фиксированным шагом $T$. 
+Преобразование Фурье дискретной последовательности $x_n$:
+\begin{equation}
+\label{eqn_1}
+X(\omega)=\sum\limits_{n=0}^{N-1}x_ne^{-j\omega n}
+\end{equation}
+АКФ сигнала в ограниченной полосе может быть представлена в виде:
+\begin{equation}
+\label{eqn_2}
+r(\tau)=\frac{1}{2\pi}\int\limits_{\omega_1}^{\omega_2}S(\omega)e^{j\omega\tau}d\omega
+\end{equation}
+Здесь $S(\omega)$ - выборочная периодограмма, $\omega_1$ и $\omega_2$ - соответственно левая 
+и правая границы заданной частотной области.
+\begin{equation}
+\label{eqn_3}
+S(\omega)=X(\omega)X^*(\omega)=\sum\limits_{n=0}^{N-1}x_ne^{-j\omega n}\sum\limits_{k=0}^{N-1}x^*_ke^{j\omega k}
+\end{equation}
+Пользуясь подходом, развиваемым в работах \cite{Jilakov},\cite{Ursol},\cite{Tuyakov}, преобразуем выражение (\ref{eqn_2}) к виду:
+\begin{align}
+\label{eqn_4}
+r(\tau) &= \int\limits_{\omega_1}^{\omega_2}S(\omega)e^{j\omega\tau}d\omega=\int\limits_{\omega_1}^{\omega_2}X(\omega)X^*(\omega)e^{j\omega\tau}d\omega= \nonumber \\
+  \int\limits_{\omega_1}^{\omega_2}\sum\limits_{n=0}^{N-1}x_ne^{-j\omega n}&\sum\limits_{k=0}^{N-1}x^*_ke^{j\omega k}e^{j\omega\tau}d\omega=
+   \int\limits_{\omega_1}^{\omega_2}\sum\limits_{n=0}^{N-1}\sum\limits_{k=0}^{N-1}x_ne^{-j\omega n}x^*_ke^{j\omega k}e^{j\omega\tau}d\omega= \\
+  &\sum\limits_{n=0}^{N-1}\sum\limits_{k=0}^{N-1} x_n x^*_k \int\limits_{\omega_1}^{\omega_2} e^{-j\omega n}e^{j\omega k}e^{j\omega\tau}d\omega =
+  \sum\limits_{n=0}^{N-1}\sum\limits_{k=0}^{N-1} x_n x^*_k \Phi(n,k)_{\tau,\omega_1,\omega_2}\nonumber
+\end{align}
+Ядро $\Phi(n,k)_{\tau,\omega_1,\omega_2}$ в функционале второго порядка (\ref{eqn_4}) может быть определено аналитически:
+\begin{align}
+\label{eqn_5}
+&\Phi(n,k)_{\tau,\omega_1,\omega_2} = \int\limits_{\omega_1}^{\omega_2} e^{-j\omega n}e^{j\omega k}e^{j\omega\tau}d\omega =
+\int\limits_{\omega_1}^{\omega_2}e^{j\omega(k-n+\tau)}d\omega \nonumber \\ 
+&=\int\limits_{\omega_1}^{\omega_2}\left[\cos\left(\omega\left(k-n+\tau\right)\right)+j\sin\left(\omega\left(k-n+\tau\right)\right)\right]d\omega= \nonumber \\
+\frac{1}{k-n+\tau}&\left[\sin\left(\omega\left(k-n+\tau\right)\right)-j\cos\left(\omega\left(k-n+\tau\right)\right)\right]\bigg|_{\omega_1}^{\omega_2}= \nonumber \\
+\frac{1}{k-n+\tau}&\left[-\cos\left(\omega\left(k-n+\tau\right)+\frac{\pi}{2}\right)-j\sin\left(\omega\left(k-n+\tau\right)+\frac{\pi}{2}\right)\right]\bigg|_{\omega_1}^{\omega_2}= \nonumber \\
+-\frac{1}{(k-n+\tau)}&e^{j\left[\omega(k-n+\tau)+\frac{\pi}{2}\right]}\bigg|_{\omega_1}^{\omega_2}=
+-\frac{e^{j\frac{\pi}{2}}}{(k-n+\tau)}e^{j\omega(k-n+\tau)}\bigg|_{\omega_1}^{\omega_2}= \\
+&-\frac{j}{k-n+\tau}\left[e^{j\omega_2(k-n+\tau)}-e^{j\omega_1(k-n+\tau)}\right]
+\end{align}
+
+Предполагая, что процесс $x(t)$ имеет СПМ линейчатого вида, используем нелинейное преобразование 
+для повышения точности оценивания:
+\begin{equation}
+\label{eqn_6}
+r_p(\tau)=\int\limits_{\omega_1}^{\omega_2}S^p(\omega)e^{j\omega\tau}d\omega
+\end{equation}
+
+Следует отметить, что (\ref{eqn_6}) является субполосной оценкой автокорреляционной функции $p+2$-го порядка. 
+Например, для $p=2$ получим функционал 4-го порядка:
+\begin{equation}
+\label{eqn_7}
+r_4(\tau)=\sum\limits_{n=0}^{N-1}\sum\limits_{k=0}^{N-1}\sum\limits_{m=0}^{N-1}\sum\limits_{q=0}^{N-1} x_n x^*_k x_m x^*_q \Phi_4(n,k,m,q)_{\tau,\omega_1,\omega_2}
+\end{equation}
+Ядро которого можно представить в виде:
+\begin{equation}
+\label{eqn_8}
+\Phi_4(n,k,m,q)_{\tau,\omega_1,\omega_2}=-\frac{j}{k-n+m-p+\tau}\left[e^{j\omega_2(k-n+m-p+\tau)}-e^{j\omega_1(k-n+m-p+\tau)}\right]
+\end{equation}
+Обычная оценка АКФ является частным случаем рассматриваемого функционала при условии что ядро является многомерным аналогом единичной матрицы. 
+\subsection{Возможные пути снижения вычислительных затрат}
+\begin{enumerate}
+\item 
+Факторизация вида
+\begin{equation}
+\label{eqn_8}
+\Phi_4(n,k,m,q)_{\tau,\omega_1,\omega_2}=\Phi_{4,1}(n)_{\tau,\omega_1,\omega_2}\Phi_{4,2}(k)_{\tau,\omega_1,\omega_2}\Phi_{4,3}(m)_{\tau,\omega_1,\omega_2}\Phi_{4,4}(q)_{\tau,\omega_1,\omega_2}
+\end{equation}
+\item Обнуление малых значений $\Phi$, например в случае $p=1$ 
+это приведет к ленточной матрице.
+\end{enumerate}
+\begin{thebibliography}{1}
+\bibitem{Jilakov} 
+Жиляков Е.Г. Вариационные методы анализа и построения функций 
+по эмпирическим данным: моногр. / Е.Г. Жиляков. – Белгород: Изд-во БелГУ, 2007. – 160 с.
+\bibitem{Ursol} 
+Жиляков Е.Г. Белов С.П. Урсол Д.В. Оптимальные канальные сигналы при цифровой передаче с частотным уплотнением. - Белгород: Изд-во БелГУ, 2009.
+\bibitem{Tuyakov} 
+Туяков С.В. О свойстве субполосных матриц и их собственных векторов. Научные ведомости. - Белгород: Изд-во БелГУ, 2010.
+\end{thebibliography}
+\end{document}
+
+

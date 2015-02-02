@@ -1,0 +1,23 @@
+clc, clear all ;
+rng(1) ;
+k = 21.2 ;
+N = 128 ;
+phasear = 2*pi/N*(0:N-1)*k' ;
+x = cos(phasear) ;
+y = x+0.5*randn(size(x)) ;
+X = fft(x) ;
+Y = fft(y) ;
+hold off ;
+semilogy((X.*conj(X)),'r-^', 'Color', [0.7 0 0],'LineWidth',1.5) ;
+hold on ;
+semilogy((Y.*conj(Y)),'r-*', 'Color', [0 0.7 0],'LineWidth',1.5) ;
+semilogy((Y.*conj(Y)).^2,'b-s', 'Color', [0 0 1],'LineWidth',1) ;
+semilogy((Y.*conj(Y)).^4,'b-o', 'Color', [1 0 0.5],'LineWidth',1.5) ;
+%semilogy((Y.*conj(Y)).^8,'b-+', 'Color', [1 0 0.5],'LineWidth',1.5) ;
+set(gca,'FontSize',14)
+grid on ;
+legend('Оценка СПМ без шума','Оценка СПМ на 1-ой итр.','Оценка СПМ на 2-ой итр.','Оценка СПМ на 3-ой итр.') ;
+xlabel('Частота, xF_d/N') ;
+ylabel('СПМ') ;
+set(gcf,'Color','w') ;
+export_fig acf_iterat.pdf ;
