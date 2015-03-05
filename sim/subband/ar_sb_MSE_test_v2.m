@@ -1,23 +1,23 @@
 % get access to model
 clc, clear %, clf ;
 curPath = pwd() ;
-cd('\Projects\Nikiforov\phd_src\src\tests\tsim\model\') ;
+cd('\Work\Melnikov2\2014\WORK\src\tests\tsim\model\') ;
 modelPath = pwd() ;
 cd( curPath ) ;
 addpath(modelPath) ;
 
-num_of_tests = 100 ;
+num_of_tests = 500 ;
 
 fd= 16000 ;		% 16.368 MHz
 
 % A = 1, E = 0.5
 % [0:0.05:30] => 1/20 * [0:1:600] => Fs = 20 Hz, N = 600
 A = 1 ; E = A^2 / 2 ;
-SNR_dB = -10:1:10 ;
+SNR_dB = -20:1:10 ;
 %SNR_dB = 100 ;
 sigma = E ./ (10 .^ (SNR_dB./10)) ;
 SNR = E ./ sigma ;
-N = 16 ;
+N = 6 ;
 
 freq1 = zeros(length(SNR_dB), 1) ;
 freq2 = zeros(length(SNR_dB), 1) ;
@@ -47,12 +47,12 @@ fprintf('done\n') ;
 % end
 
 
-matlabpool open 4 ;
+matlabpool open 8 ;
 
 parfor jj=1:length(SNR_dB)
     
     %     init_rand(1) ;
-    fprintf('Actual: %.4f  dB\n', SNR_dB(jj));
+    fprintf('Actual: %.4f  dB\n', SNR_dB(jj)) ;
     
     tic() ;
     
@@ -66,7 +66,7 @@ parfor jj=1:length(SNR_dB)
         
         %%%%%%%%%%%%%%%%%%%
         % signal + noise
-        X = fft(x) ;
+        X = fft(x,4*N) ;
         XX = X.*conj(X) ;
         rxx1 = ifft(XX) ;
         rxx2 = ifft(XX .^ 4) ;
@@ -132,7 +132,7 @@ semilogy(SNR_dB, freq2, '-b*', 'LineWidth', 2, 'MarkerSize', 8  ) ;
 semilogy(SNR_dB, freq3, '-r+', 'LineWidth', 2, 'MarkerSize', 8  ) ;
 semilogy(SNR_dB, freq4, '-m^', 'LineWidth', 3, 'MarkerSize', 8, 'Color', [0.1 0.7 0.1]  ) ;
 set(gca,'FontSize',14) ;
-title('Band:-0.4\pi...0.4\pi, D=3') ,
+title(sprintf('Band:-0.5\\pi...0.5\\pi, D=3, N=%d',N)) ,
 legend('1', '2', '3', 'SB') ;
 grid on ;
 xlabel('SNR, dB') ;
