@@ -1,7 +1,7 @@
 % get access to model
 clc, clear %, clf ;
 curPath = pwd() ;
-cd('\Work\Melnikov2\2014\WORK\src\tests\tsim\model\') ;
+cd('..\..\..\phd_src\src\tests\tsim\model\') ;
 modelPath = pwd() ;
 cd( curPath ) ;
 addpath(modelPath) ;
@@ -47,7 +47,7 @@ fprintf('done\n') ;
 % end
 
 
-matlabpool open 8 ;
+poolObject = parpool(8) ;
 
 parfor jj=1:length(SNR_dB)
     
@@ -119,7 +119,7 @@ parfor jj=1:length(SNR_dB)
     
 end ; % SNR
 
-matlabpool close ;
+delete(poolObject) ;
 
 SNR_dB_acf = SNR_dB ;
 save('freq_sko_ar', 'freq1', 'freq2', 'freq3', 'freq4', 'SNR_dB_acf')
