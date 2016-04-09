@@ -1,0 +1,96 @@
+\documentclass[a4paper]{article}
+%\documentclass[twocolumn,a4paper]{proc}
+\usepackage[T2A]{fontenc}
+\usepackage[cp1251]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[cmex10]{amsmath}
+\usepackage{amsfonts}
+\usepackage{hyperref}
+\usepackage[pdftex]{graphicx}
+\usepackage{epsfig}
+\usepackage{epstopdf}
+\usepackage{pdfpages}
+%\usepackage{pscyr}
+\usepackage{fancyhdr}
+\renewcommand{\rmdefault}{fjn}
+\setlength{\textwidth}{170mm}
+\setlength{\textheight}{240mm}
+\voffset=-20mm
+\hoffset=-20mm
+\pagestyle{fancy}
+\title{Реализация процедуры L1}
+%\lhead{RGPS v1.0}
+%\lfoot{Ref. Matlab model}
+\begin{document}
+%\maketitle
+%\begin{abstract}
+%Рассматриваются методы ...
+%\end{abstract}
+\section{Гистограмма полутонового изображения}
+Процессы пространственной обработки изображений будем пердставлять в общем виде \cite{Gonzalez}:
+
+\begin{equation}
+g(x,y) = T[f(x,y)]
+\end{equation}
+
+Простейшая форма оператора $T$ достигается в случае, когда окрестность имеет размеры $1\times 1$.
+\begin{equation}
+s = T[r]
+\label{str}
+\end{equation}
+
+$r$ - значение яркости до преобразования, $s$ - значение яркости после преобразования.
+
+Пусть $P_r(r)$ - плотность распределения случайной величины $r$. Тогда $P_r(r)dr$ - 
+вероятность попадания величины r в интервал dr. При выполнении преобразования \ref{str}
+осуществляется преобразование плотности распределения в соответствии с выражением:
+
+\begin{equation}
+P_s(s)|ds|=P_r(r)|dr|
+\end{equation}
+
+или другими словами
+
+\begin{equation}
+P_s(s)=P_r(r)\left|\frac{dr}{ds}\right|
+\label{pss}
+\end{equation}
+
+Теперь рассмотрим преобразование вида
+\begin{equation}
+s = T(r) = \int\limits_{0}^{r}P_r(\omega)d\omega
+\label{histeq}
+\end{equation}
+
+\begin{equation}
+\frac{ds}{dr}=\frac{dT(r)}{dr}=\frac{d}{dr}\left[\int\limits_{0}^{r}P_r(\omega)d\omega\right]=p_r(\omega)-p_r(0)=p_r(\omega)
+\end{equation}
+
+Принимая во внимание \ref{pss} и теорему о производной обратной функции 
+
+\begin{equation}
+\frac{dr}{ds}=\frac{1}{ds/dr}=\frac{1}{p_r(\omega)}
+\end{equation}
+
+Следовательно
+
+\begin{equation}
+p_s(s)=p_r(r)\left|\frac{dr}{ds}\right|=p_r(r)\frac{1}{p_r(r)}=1
+\end{equation}
+
+В дискретном случае \ref{histeq} превращается в
+\begin{equation}
+s_k=T(r_k)=\sum\limits_{j=0}^{k}p_r(r_k)=\sum\limits_{j=0}^{k}\frac{n_j}{n}
+\end{equation}
+
+
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{\bibname}	% Добавляем список литературы в оглавление
+\begin{thebibliography}{1}
+\bibitem{Gonzalez} Гонсалес С. Вудс С., Цифровая обработка изображений.
+\end{thebibliography}
+
+\end{document}
+
+
