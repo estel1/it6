@@ -27,6 +27,7 @@
 %Рассматриваются методы ...
 %\end{abstract}
 \section{Гистограмма полутонового изображения}
+\subsection{Выравнивание гистограммы}
 Процессы пространственной обработки изображений будем пердставлять в общем виде \cite{Gonzalez}:
 
 \begin{equation}
@@ -83,6 +84,46 @@ p_s(s)=p_r(r)\left|\frac{dr}{ds}\right|=p_r(r)\frac{1}{p_r(r)}=1
 s_k=T(r_k)=\sum\limits_{j=0}^{k}p_r(r_k)=\sum\limits_{j=0}^{k}\frac{n_j}{n}
 \end{equation}
 
+\begin{figure}[h!]
+\centering
+\includegraphics{images/topic1_histogram.png}
+\caption{Выравнивание гистограммы полутонового изображения}
+\end{figure}
+
+\subsection{Приведение гистограммы}
+Пусть $p_r(r)$ - непрерывная плотность яркостей исходного изображения, $p_z(z)$ - задаваемая плотность обработанного изображения.
+Выравнивание гистограммы в непрерывной форме:
+\begin{equation}
+s = T(r) = \int\limits_{0}^{r}P_r(\omega)d\omega
+\label{histeq}
+\end{equation}
+Пусть $z$ обладает свойством \cite{Gonzalez}:
+\begin{equation}
+G(z)=\int\limits_{0}^{z}p_z(t)dt=s
+\end{equation}
+Т.е.
+\begin{equation}
+z = G^{-1}(s)=G^{-1}\left[T(r)\right]
+\end{equation}
+
+\subsection{логарифмические и степенные преобразования}
+\begin{equation}
+s = c\log(1+r)
+\end{equation}
+\begin{equation}
+s = cr^\gamma
+\end{equation}
+
+\begin{figure}[h!]
+\centering
+\includegraphics{images/topic2_intensity.png}
+\caption{логарифмическое преобразование}
+\end{figure}
+\begin{figure}[h!]
+\centering
+\includegraphics{images/topic3_intensity.png}
+\caption{логарифмическое преобразование}
+\end{figure}
 
 \clearpage
 \phantomsection
