@@ -1,0 +1,2 @@
+compile LaTex (texlive-2014) with:
+texi2pdf steepest_descent.tex
