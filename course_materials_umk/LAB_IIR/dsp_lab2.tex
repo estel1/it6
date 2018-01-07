@@ -1,0 +1,103 @@
+\documentclass[a4paper]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[cp1251]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[cmex10]{amsmath}
+\usepackage{amsfonts}
+\usepackage[pdftex]{graphicx}
+\usepackage{times}
+\renewcommand{\rmdefault}{fjn}
+\setlength{\textwidth}{170mm}
+\setlength{\textheight}{240mm}
+\voffset=-40mm
+\hoffset=-20mm
+\title{Report}
+\begin{document}
+\section{Лаб. работа. Расчет рекурсивного цифрового фильтра по аналоговому прототипу}
+\subsection{Цель работы}
+Расчет и анализ цифрового рекурсивного фильтра нижних частот с использованием аналогового прототипа.
+\subsection{Последовательность выполнения}
+Расчет аналогового прототипа (фильтр Баттерворта или Чебышева 2-го порядка), численное моделирование процесса фильтрации с помощью метода Эйлера решения диф. уравнения.
+Выбор шага по времени для численного метода и интервала дискретизации для цифрового фильтра.
+Расчет цифрового рекурсивного фильтра с помощью билинейного преобразования. 
+Построение и сравнение частотных характеристик аналогового прототипа и цифрового фильтра для различных значений частоты
+дискретизации. Сравнение выходных сигналов аналогового и цифрового фильтров. Выводы.
+\subsection{Фильтр Баттерворта второго порядка}
+Передаточная функция аналогового фильтра Баттерворта 2-го порядка может быть представлена в виде:
+\begin{equation}
+\label{Bat2}
+H(s)=\frac{1}{s^2+\sqrt{2}s+1}
+\end{equation}
+Дифференциально уравнение:
+\begin{equation}
+\frac{d^2y}{dt^2}+\sqrt{2}\frac{dy}{dt}+y(t) = x(t) 
+\end{equation}
+Пусть на вход фильтра поступает сигнал:
+\begin{equation}
+x(t)=cos(0.1t)+cos(2t)+2.0
+\end{equation}
+Для получения выходного сигнала используем метод Эйлера численного решения диф. уравнения. Для этого введем замену:
+\begin{equation}
+z(t)=\frac{dy}{dt}
+\end{equation}
+Получим систему из двух уравнений первого порядка:
+\begin{equation}
+\begin{cases}
+\frac{dy}{dt}&=z(t)\\
+\frac{dz}{dt}&=x(t)-\sqrt{2}z(t)-y(t)
+\end{cases}
+\end{equation}
+Численная схема решения в соответствии с методом Эйлера:
+\begin{equation}
+\begin{cases}
+y_{n+1} &= y_n + \frac{dy}{dt}\Delta t = y_n + z_n\Delta t\\
+z_{n+1} &= z_n + \frac{dz}{dt}\Delta t = z_n + \left[x_n-\sqrt{2}z_n-y_n\right]\Delta t
+\end{cases}
+\end{equation}
+\subsection{Расчет цифрового фильтра с помощью билинейного преобразования}
+Переход от непрерывного представления (\ref{Bat2}) к дискретному производится путем формальной замены комплексной переменной $s$ на билинейную форму от $z$:
+\begin{equation}
+\label{Blinear}
+s \rightarrow \gamma\frac{1-z^{-1}}{1+z^{-1}}
+\end{equation}
+Здесь $\gamma$ - параметр, определяющий соотношение между шкалой аналоговых частот $\Omega$ и шкалой дискретных частот $\omega$.
+\begin{equation}
+\Omega=\gamma \tg(\pi\frac{\omega}{\omega_d})
+\end{equation}
+Подставляя (\ref{Blinear}) в (\ref{Bat2}), получаем:
+\begin{align}
+H(z) = &\frac{1}{\gamma^2\frac{(1-z^{-1})^2}{(1+z^{-1})^2}+\gamma\frac{1-z^{-1}}{1+z^{-1}}+1}=\frac{(1+z^{-1})^2}{\gamma^2(1-z^{-1})^2+\gamma\sqrt{2}(1-z^{-1})(1+z^{-1})+(1+z^{-1})^2}= \\
+&\frac{z^{-2}+2z^{-1}+1}{\gamma^2(z^{-2}-2z^{-1}+1)+\gamma\sqrt{2}(1-z^{-2})+(z^{-2}+2z^{-1}+1)} \\
+&\frac{z^{-2}+2z^{-1}+1}{z^{-2}(\gamma^2-\gamma\sqrt{2}+1)+z^{-1}(2-2\gamma^2)+(\gamma^2+\sqrt{2}\gamma+1)}
+\end{align}
+Введем обозначения:
+\begin{align}
+A&=(\gamma^2-\gamma\sqrt{2}+1) \\
+B&=(2-2\gamma^2) \\
+C&=(\gamma^2+\sqrt{2}\gamma+1) \\
+\end{align}
+Передаточная функция цифрового фильтра:
+\begin{equation}
+H(z)=\frac{z^{-2}+2z^{-1}+1}{Az^{-2}+Bz^{-1}+C}
+\end{equation}
+Уравнение фильтрации:
+\begin{equation}
+y_n = \frac{1}{C}\left( x_{n-2}+2x_{n-1}+x_n-Ay_{n-2}-By_{n-1}\right)
+\end{equation}
+
+\section{Частотные характеристики фильтров}
+\begin{figure}[h!]
+\includegraphics[width=.8\textwidth]{images/freq_response.pdf}
+\caption{Частотные характеристики фильтров}
+\end{figure}
+
+\section{Выходной сигнал аналогового прототипа и цифрового фильтра для различных частот дискретизации}
+\begin{figure}[h!]
+\includegraphics[width=.8\textwidth]{images/filter_output.pdf}
+\caption{Результаты фильтрации}
+\end{figure}
+
+\section{Выводы}
+-
+
+\end{document}
