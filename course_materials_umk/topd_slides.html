@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!-- https://uk.mathworks.com/help/vision/ug/local-feature-detection-and-extraction.html
+http://www.mit.edu/~turitsyn/#shannon
+https://uk.mathworks.com/help/wavelet/ug/r-wave-detection-in-the-ecg.html-->
+<html>
+<head>
+    <style>
+	body {
+	  background: rgb(0,70,120); 
+    }
+	page {
+	  background: white;
+	  display: block;
+	  margin: 0.5cm auto;
+	  margin-top: 0.5cm;
+	  margin-bottom: 0.5cm;
+	  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+	}
+	page[size="A5"] {  
+	  width: 21cm;
+	  height: 14.8cm; 
+	}
+	page[size="A4"] {  
+	  width: 21cm;
+	  height: 29.7cm; 
+	}
+	page[size="A4"][layout="portrait"] {
+	  width: 29.7cm;
+	  height: 21cm;  
+	}
+	@media print {
+	  body, page {
+		margin: 0;
+		box-shadow: 0;
+	  }
+	}
+	header, footer {
+		padding: 0.5 em;
+		color: white;
+		background-color: rgb(0,130,200) ;
+		clear: bottom;
+		text-align: center;
+	}
+	</style>
+    <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <!-- <script src="/scripts/snippet-javascript-console.min.js?v=1"></script> -->
+</head>
+<body>
+
+    <page size="A5">
+
+		<header>
+		    <img style="display: inline;" src=https://www.mirea.ru/images/logo_mgupi.png> <h1 style="display: inline;">My website name</h1>
+		</header>
+		
+		  Пропускная способность канала в пересчете на единицу частотной полосы может быть представлена в виде:
+		  \begin{equation}
+		  С=\max_{P(X)} \int\limits_{-\infty}^{\infty}\int\limits_{-\infty}^{\infty}p(x,y)\log_2\frac{p(x,y)}{p(x)p(y)}dxdy (1)
+		  \end{equation}	
+		  Максимум в формуле (1) определяется среди всех возможных распределений \(P(x)\) (среди всех возможных сигнально-кодовых конструкций). 
+	  
+	  When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
+	  $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+
+	  </page>
+
+    <page size="A5">
+<header>
+   <img src=https://www.mirea.ru/images/logo_mgupi.png> <font size="8">Capacity</font>
+</header>
+	
+    <a href src="https://www.mathjax.org"> Powered by MathJax </a>
+    </page>
+    <!--<page size="A4" layout="portrait">A4 portrait</page>>
+    <!--<script type="text/javascript">        
+    </script>-->
+</body>
+</html>
