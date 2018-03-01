@@ -1,19 +1,14 @@
 <!DOCTYPE html>
-<!-- https://uk.mathworks.com/help/vision/ug/local-feature-detection-and-extraction.html
-http://www.mit.edu/~turitsyn/#shannon
-https://uk.mathworks.com/help/wavelet/ug/r-wave-detection-in-the-ecg.html-->
 <html>
 <head>
     <style>
 	body {
-	  background: rgb(0,70,120); 
+	  background: rgb(0,74,134); 
     }
 	page {
 	  background: white;
 	  display: block;
-	  margin: 0.5cm auto;
-	  margin-top: 0.5cm;
-	  margin-bottom: 0.5cm;
+	  margin: .5cm auto;
 	  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
 	}
 	page[size="A5"] {  
@@ -34,47 +29,88 @@ https://uk.mathworks.com/help/wavelet/ug/r-wave-detection-in-the-ecg.html-->
 		box-shadow: 0;
 	  }
 	}
-	header, footer {
-		padding: 0.5 em;
+	header {
+		padding: 0 0 0 0 ;
 		color: white;
 		background-color: rgb(0,130,200) ;
 		clear: bottom;
-		text-align: center;
+		text-align: left;
 	}
-	</style>
-    <script type="text/javascript" async
-    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
-    </script>
-    <!-- <script src="/scripts/snippet-javascript-console.min.js?v=1"></script> -->
+	
+	footer {
+    position : absolute;
+	padding: 1 0 0 0 ;
+    bottom : 100px;
+    height : 40px;
+    margin-top : 40px;
+	}
+
+	.header {
+		border:1px solid darkgray ;
+	}
+
+	.header .image {
+		background: url("https://www.mirea.ru/images/logo_mgupi.png") no-repeat;
+		width: 100px;
+		height: 90px;
+		border:0px solid green;
+	}
+
+	.header .text {
+		font: x-large Times New Roman ;
+		border:0px solid blue;
+	}
+
+	.header .image, 
+	.header .text {
+		display: inline-block;
+		vertical-align: middle;
+	}
+</style>
+<script type="text/javascript" async
+	src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
 </head>
 <body>
 
     <page size="A5">
-
-		<header>
-		    <img style="display: inline;" src=https://www.mirea.ru/images/logo_mgupi.png> <h1 style="display: inline;">My website name</h1>
-		</header>
-		
-		  Пропускная способность канала в пересчете на единицу частотной полосы может быть представлена в виде:
+	<header>
+		<div class="header">
+			<div class="image"></div><div class="text"><font size="7">Channel Capacity</font><BR><font size="6">Пропускная способность канала связи.</font></div>
+		</div>		
+	</header>
+	
+		Пропускная способность \(C\) канала связи \(P(x,y)\) в пересчете на единицу частотной полосы может быть представлена в виде [1]:
 		  \begin{equation}
-		  С=\max_{P(X)} \int\limits_{-\infty}^{\infty}\int\limits_{-\infty}^{\infty}p(x,y)\log_2\frac{p(x,y)}{p(x)p(y)}dxdy (1)
+			С=\max_{P(x)} \int\limits_{X}\int\limits_{Y}p(x,y)\log_2\frac{p(x,y)}{p(x)p(y)}dxdy
+			\label{Cap1}
 		  \end{equation}	
-		  Максимум в формуле (1) определяется среди всех возможных распределений \(P(x)\) (среди всех возможных сигнально-кодовых конструкций). 
-	  
-	  When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
-	  $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+		  Максимум в формуле (\ref{Cap1}) определяется среди всех возможных распределений \(P(x)\) 
+		  (среди всех возможных сигнально-кодовых конструкций).	
+		  
 
-	  </page>
+	<footer>
+	 1. C. E. Shannon, Bell Syst. Tech. J. 27, 379 (1948).
+	</footer>
+    </page>
 
     <page size="A5">
-<header>
-   <img src=https://www.mirea.ru/images/logo_mgupi.png> <font size="8">Capacity</font>
-</header>
+	<header>
+		<div class="header">
+			<div class="image"></div><div class="text"><font size="7">Channel Capacity</font><BR><font size="6">Продолжение.</font></div>
+		</div>		
+	</header>
 	
-    <a href src="https://www.mathjax.org"> Powered by MathJax </a>
+
+	<footer>
+	 1. C. E. Shannon, Bell Syst. Tech. J. 27, 379 (1948).
+	</footer>
     </page>
-    <!--<page size="A4" layout="portrait">A4 portrait</page>>
-    <!--<script type="text/javascript">        
-    </script>-->
+	
 </body>
 </html>
