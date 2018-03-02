@@ -40,9 +40,9 @@
 	footer {
     position : absolute;
 	padding: 1 0 0 0 ;
-    bottom : 100px;
+    bottom : 220px;
     height : 40px;
-    margin-top : 40px;
+    margin-top : 10px;
 	}
 
 	.header {
@@ -81,35 +81,195 @@ MathJax.Hub.Config({
     <page size="A5">
 	<header>
 		<div class="header">
-			<div class="image"></div><div class="text"><font size="7">Channel Capacity</font><BR><font size="6">Пропускная способность канала связи.</font></div>
+			<div class="image"></div><div class="text"><font size="7">Entropy</font><BR><font size="6">Энтропия дискретного источника.</font></div>
 		</div>		
 	</header>
 	
-		Пропускная способность \(C\) канала связи \(P(x,y)\) в пересчете на единицу частотной полосы может быть представлена в виде [1]:
-		  \begin{equation}
-			С=\max_{P(x)} \int\limits_{X}\int\limits_{Y}p(x,y)\log_2\frac{p(x,y)}{p(x)p(y)}dxdy
-			\label{Cap1}
-		  \end{equation}	
-		  Максимум в формуле (\ref{Cap1}) определяется среди всех возможных распределений \(P(x)\) 
-		  (среди всех возможных сигнально-кодовых конструкций).	
-		  
+		Энтропия \(H\) дискретного источника может быть представлена в виде[1]:
+		\begin{equation}
+			H = -K\sum_{i=1}^{n}p_i\log p_i
+		  \label{Entropy}
+		\end{equation}	
+		Для случая когда источник генерирует одно из двух возможных сообщений:
+		\begin{equation}
+			H = -K(p \log p + q\log q)
+		  \label{Entropy2}
+		\end{equation}	
+		<img src="http://www5a.wolframalpha.com/Calculate/MSP/MSP64881c1beadd87fgid890000641i4befa63ae3e7?MSPStoreType=image/gif&s=52&w=300.&h=183.&cdf=RangeControl" align="middle">
 
-	<footer>
-	 1. C. E. Shannon, Bell Syst. Tech. J. 27, 379 (1948).
-	</footer>
+	 <p>1. C. E. Shannon, Bell Syst. Tech. J. 27, 379 (1948).</p>
     </page>
 
     <page size="A5">
 	<header>
 		<div class="header">
-			<div class="image"></div><div class="text"><font size="7">Channel Capacity</font><BR><font size="6">Продолжение.</font></div>
+			<div class="image"></div><div class="text"><font size="7">Entropy</font><BR><font size="6">Совместная энтропия.</font></div>
 		</div>		
-	</header>
-	
+	</header>	
+		Энтропия \(H(x,y)\) двух источников:
+		\begin{equation}
+			H(x,y) = -\sum_{i,j}p(i,j)\log p(i,j)
+		  \label{Entropyxy}
+		\end{equation}	
+		\begin{equation}
+			H(x) = -\sum_{i,j}p(i,j)\log \sum_{j} p(i,j)
+		  \label{Entropy_x}
+		\end{equation}	
+		\begin{equation}
+			H(y) = -\sum_{i,j}p(i,j)\log \sum_{i} p(i,j)
+		  \label{Entropy_y}
+		\end{equation}	
+		И
+		\begin{equation}
+			H(x,y) \leq H(x)+H(y)
+		\end{equation}	
+		Равенство \(H(x,y) = H(x)+H(y)\) выполняется когда \(x\) и \(y\) независимы.
+    </page>
 
-	<footer>
-	 1. C. E. Shannon, Bell Syst. Tech. J. 27, 379 (1948).
-	</footer>
+    <page size="A5">
+	<header>
+		<div class="header">
+			<div class="image"></div><div class="text"><font size="7">Entropy</font><BR><font size="6">Условная энтропия.</font></div>
+		</div>		
+	</header>	
+	    Вероятность того, что переменная \(y\) примет значение \(j\) при условии, что переменная \(x\) приняла значение \(i\):
+		\begin{equation}
+			p_i(j)=\frac{p(i,j)}{\sum_{j}p(i,j)}
+		\end{equation}			
+		Условная энтропия \(H_x(y)\) :
+		\begin{aligned}
+			H_x(y) = -\sum_{i,j}p(i,j)\log p_i(j)=-\sum_{i,j}p(i,j)\log \frac{p(i,j)}{\sum_{j}p(i,j)}= \\
+			-\sum_{i,j}p(i,j)\log p(i,j)+\sum_{i,j}p(i,j)\log \sum_{j}p(i,j)=\\
+			H(x,y)-H(x)
+		\end{aligned}	
+	    Таким образом
+		\begin{equation}
+			H(x,y) = H_x(y) + H(x)
+		\end{equation}					
+		Условная энтропия показывает меру неопределенности \(y\) при условии, что \(x\) известно.
+		\begin{equation}
+			H(x)+H(y) \geq H(x,y)=H_x(y) + H(x) \\
+		\end{equation}					
+		\begin{equation}
+			H(y) \geq H_x(y)
+		\end{equation}					
+    </page>
+
+    <page size="A5">
+	<header>
+		<div class="header">
+			<div class="image"></div><div class="text"><font size="7">Capacity</font><BR><font size="6">Пропускная способность канала с шумом.</font></div>
+		</div>		
+	</header>	
+	    Скорость передачи:
+		\begin{equation}
+			R = H(x) - H_x(y)
+		\end{equation}			
+		Пропускная способность канала с шумом:
+		\begin{equation}
+			С = \max_{x}(H(x)-H_y(x))
+		\end{equation}					
+		Здесь максимум определяется среди всех возможных \(x\).
+    </page>
+
+    <page size="A5">
+	<header>
+		<div class="header">
+			<div class="image"></div><div class="text"><font size="6">Continuous</font><BR><font size="6">Энтропия непрерывного распределения.</font></div>
+		</div>		
+	</header>	
+	    Энтропия непрерывного распределения:
+		\begin{equation}
+			H(x) = -\int\limits_{-\infty}^{\infty}p(x)\log p(x) dx
+		\end{equation}			
+		Для многомерной плотности \(p(x_1,x_2,\ldots x_n)\)
+		\begin{equation}
+			H = -\int\limits_{-\infty}^{\infty}\ldots \int\limits_{-\infty}^{\infty} (p(x_1,x_2,\ldots x_n)\log p(x_1,x_2,\ldots x_n) dx
+		\end{equation}			
+		Совместная энтропия двух непрерывных распределений:
+		\begin{equation}
+			H(x,y) = -\int\limits_{-\infty}^{\infty}\int\limits_{-\infty}^{\infty}p(x,y)\log p(x,y) dxdy
+		\end{equation}					
+    </page>
+
+    <page size="A5">
+	<header>
+		<div class="header">
+			<div class="image"></div><div class="text"><font size="7">Continuous</font><BR><font size="6">Условная энтропия непрерывного распределения.</font></div>
+		</div>		
+	</header>	
+		Условная энтропия непрерывного распределения
+		\begin{equation}
+			H_y(x) = -\int\limits_{-\infty}^{\infty}\int\limits_{-\infty}^{\infty}p(x,y)\log \frac{p(x,y)}{p(x)} dxdy
+		\end{equation}					
+		\begin{equation}
+			H_x(y) = -\int\limits_{-\infty}^{\infty}\int\limits_{-\infty}^{\infty}p(x,y)\log \frac{p(x,y)}{p(y)} dxdy
+		\end{equation}					
+		Здесь
+		\begin{equation}
+			p(x) = -\int\limits_{-\infty}^{\infty}p(x,y) dy
+		\end{equation}					
+		\begin{equation}
+			p(y) = -\int\limits_{-\infty}^{\infty}p(x,y) dx
+		\end{equation}					
+    </page>
+
+    <page size="A5">
+	<header>
+		<div class="header">
+			<div class="image"></div><div class="text"><font size="7">Continuous Rate</font><BR><font size="6">Скорость непрерывного канала.</font></div>
+		</div>		
+	</header>	
+	    Рассматриваются сигналы ограниченные в полосе \(W\). Такие сигналы могут быть однозначно представлены \(n=2TW\) отсчетами во времени.
+ 	    \begin{equation}
+		P(x_1,x_2, \ldots x_n) = P(x)
+		\end{equation}
+		Скорость передачи
+		\begin{equation}
+			R = H(x) - H_x(y)
+		\end{equation}			
+		\begin{equation}
+			R = -\int\limits_{-\infty}^{\infty}p(x)\log p(x) dx + \int\limits_{-\infty}^{\infty}\int\limits_{-\infty}^{\infty}p(x,y)\log \frac{p(x,y)}{p(x)} dxdy=\int\limits_{-\infty}^{\infty}\int\limits_{-\infty}^{\infty}p(x,y)\log \frac{p(x,y)}{p(x)p(y)} dxdy
+		\end{equation}			
+		Так как 
+		\begin{equation}
+			\int\limits_{-\infty}^{\infty}\int\limits_{-\infty}^{\infty}p(x,y)\log p(x) dxdy=\int\limits_{-\infty}^{\infty}p(x)\log p(x)
+		\end{equation}			
+    </page>
+
+    <page size="A5">
+	<header>
+		<div class="header">
+			<div class="image"></div><div class="text"><font size="7">Continuous Capacity</font><BR><font size="6">Пропускная способность непрерывного канала.</font></div>
+		</div>		
+	</header>	
+		Пропускная способность :
+		  \begin{equation}
+			С=\lim_{T \infty}\max_{P(x)} \frac{1}{T}\int\limits_{X}\int\limits_{Y}p(x,y)\log_2\frac{p(x,y)}{p(x)p(y)}dxdy
+			\label{Cap1}
+		  \end{equation}	
+		  Максимум в формуле (\ref{Cap1}) определяется среди всех возможных распределений \(P(x)\) 
+		  (среди всех возможных сигнально-кодовых конструкций).	
+    </page>
+
+    <page size="A5">
+	<header>
+		<div class="header">
+			<div class="image"></div><div class="text"><font size="7">Average power limitation</font><BR><font size="6">Сигнал с ограничением средней мощности.</font></div>
+		</div>		
+	</header>	
+		Для случая белого гауссовского шума со спектральной плотностью \(N\) и сигнала с ограниченной средней мощностью \(P\) в полосе \(W\) энтропии выражаются следующим образом.
+		  \begin{equation}
+		  H(y) = W\log 2\pi e(P+N)
+		  \end{equation}			
+		  \begin{equation}
+		  H(n) = W\log 2\pi e N
+		  \end{equation}		
+          Пропускная способность
+		  \begin{equation}
+		  С = H(y)-H(n) = W \log \frac{P+N}{N}
+		  \end{equation}		
+		  
     </page>
 	
 </body>
