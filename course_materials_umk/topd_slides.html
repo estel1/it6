@@ -1,90 +1,86 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
     <style>
-	body {
-	  background: rgb(0,74,134); 
-    }
-	page {
-	  background: white;
-	  display: block;
-	  margin: .5cm auto;
-	  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
-	}
-	page[size="A5"] {  
-	  width: 21cm;
-	  height: 14.8cm; 
-	}
-	page[size="A4"] {  
-	  width: 21cm;
-	  height: 29.7cm; 
-	}
-	page[size="A4"][layout="portrait"] {
-	  width: 29.7cm;
-	  height: 21cm;  
-	}
-	@media print {
-	  body, page {
-		margin: 0;
-		box-shadow: 0;
-	  }
-	}
-	header {
-		padding: 0 0 0 0 ;
-		color: white;
-		background-color: rgb(0,130,200) ;
-		clear: bottom;
-		text-align: left;
-	}
-	
-	footer {
-    position : absolute;
-	padding: 1 0 0 0 ;
-    bottom : 220px;
-    height : 40px;
-    margin-top : 10px;
-	}
+		body {
+		  background: rgb(0,74,134); 
+		}
+		page {
+		  background: white;
+		  display: block;
+		  margin: .5cm auto;
+		  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+		}
+		page[size="A5"] {  
+		  width: 21cm;
+		  height: 14.8cm; 
+		}
+		page[size="A4"] {  
+		  width: 21cm;
+		  height: 29.7cm; 
+		}
+		page[size="A4"][layout="portrait"] {
+		  width: 29.7cm;
+		  height: 21cm;  
+		}
+		@media print {
+		  body, page {
+			margin: 0;
+			box-shadow: 0;
+		  }
+		}
+		header {
+			padding: 0 0 0 0 ;
+			color: white;
+			background-color: rgb(0,130,200) ;
+			clear: bottom;
+			text-align: left;
+		}
+		
+		.header {
+			border:1px solid darkgray ;
+		}
 
-	.header {
-		border:1px solid darkgray ;
-	}
+		.header .image {
+			background: url("https://www.mirea.ru/images/logo_mgupi.png") no-repeat;
+			width: 100px;
+			height: 90px;
+			border:0px solid green;
+		}
 
-	.header .image {
-		background: url("https://www.mirea.ru/images/logo_mgupi.png") no-repeat;
-		width: 100px;
-		height: 90px;
-		border:0px solid green;
-	}
+		.header .text {
+			font: x-large Times New Roman ;
+			border:0px solid blue;
+		}
 
-	.header .text {
-		font: x-large Times New Roman ;
-		border:0px solid blue;
-	}
-
-	.header .image, 
-	.header .text {
-		display: inline-block;
-		vertical-align: middle;
-	}
-</style>
-<script type="text/javascript" async
-	src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
-});
-</script>
+		.header .image, 
+		.header .text {
+			display: inline-block;
+			vertical-align: middle;
+		}
+		.body {
+			margin : 5px ;
+		}
+	</style>
+	<script type="text/javascript" async
+		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+	<script type="text/x-mathjax-config">
+		MathJax.Hub.Config({
+		TeX: { equationNumbers: { autoNumber: "AMS" } }
+		});
+	</script>
 </head>
 <body>
 
     <page size="A5">
-	<header>
-		<div class="header">
-			<div class="image"></div><div class="text"><font size="7">Entropy</font><BR><font size="6">Энтропия дискретного источника.</font></div>
-		</div>		
-	</header>
-	
+		<header>
+			<div class="header">
+				<div class="image"></div><div class="text"><font size="7">Entropy</font><BR><font size="6">Энтропия дискретного источника.</font></div>
+			</div>		
+		</header>
+		<div class="body">
 		Энтропия \(H\) дискретного источника может быть представлена в виде[1]:
 		\begin{equation}
 			H = -K\sum_{i=1}^{n}p_i\log p_i
@@ -95,10 +91,11 @@ MathJax.Hub.Config({
 			H = -K(p \log p + q\log q)
 		  \label{Entropy2}
 		\end{equation}	
+		</div>
 		<img src="http://www5a.wolframalpha.com/Calculate/MSP/MSP64881c1beadd87fgid890000641i4befa63ae3e7?MSPStoreType=image/gif&s=52&w=300.&h=183.&cdf=RangeControl" align="middle">
 
-	 <p>1. C. E. Shannon, Bell Syst. Tech. J. 27, 379 (1948).</p>
-    </page>
+		<div class="footer">1. C. E. Shannon, Bell Syst. Tech. J. 27, 379 (1948). </div>		
+   </page>
 
     <page size="A5">
 	<header>
@@ -272,5 +269,23 @@ MathJax.Hub.Config({
 		  
     </page>
 	
+    <page size="A5">
+		<header>
+			<div class="header">
+				<div class="image"></div><div class="text"><font size="7">Passband signal</font><BR><font size="6">Полосовая модуляция.</font></div>
+			</div>		
+		</header>
+		<div class="body">
+			Сигнал \(s=(s_1,s_2, \ldots s_n)\) ограниченный в полосе \(W\) может быть однозначно представлен \(n=2WT\) символами на интервале \(T\). Расположение этого участка на частотной оси не влияет на пропускную способность. 
+			Пусть центральная частота равна \(\omega_0\)
+			
+			<iframe frameborder="0" style="width:100%;height:200px;" src="https://www.draw.io/?lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=passband%20spectre.xml#Uhttps%3A%2F%2Fraw.githubusercontent.com%2Festel1%2Fit6%2Fmaster%2Fcourse_materials_umk%2Fpassband%2520spectre.xml"></iframe>
+			
+			Известно, что последовательность длины \(n\) может быть однозначно представлена \(n\) коэффициентами Фурье (в предположении что она периодическая). Так как сигнал \(s\) имеет
+			ненулевую мощность лишь в указанной полосе, то и все компонеты спектра должны принадлежать той же области. Для этого каждую компоненту разложения Фурье необходимо сдвинуть 
+			по частоте на \(\omega_0\), т.е. вместо \(e^{-j\omega m}\) следует использовать \(e^{-j(\omega+\omega_0)m}=e^{-j\omega m}e^{-j\omega_0 m}\).
+		</div>
+   </page>
+
 </body>
 </html>
