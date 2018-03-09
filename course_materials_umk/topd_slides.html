@@ -5,6 +5,7 @@
     <style>
 		body {
 		  background: rgb(0,74,134); 
+   		  counter-reset: page_num ;
 		}
 		page {
 		  background: white;
@@ -36,6 +37,7 @@
 			background-color: rgb(0,130,200) ;
 			clear: bottom;
 			text-align: left;
+   		    counter-reset: page_num ;
 		}
 		
 		.header {
@@ -62,6 +64,18 @@
 		.body {
 			margin : 5px ;
 		}
+		.page_count :
+		{
+			width: 100px;
+			height: 90px;
+			content: "page"+counter(page_num) ;
+			counter-increment: page_num ;
+		}
+		.page_count .text {
+			border:2px solid white;
+			text-align: right;			
+			font: x-large Times New Roman ;
+		}
 	</style>
 	<script type="text/javascript" async
 		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
@@ -78,6 +92,7 @@
 		<header>
 			<div class="header">
 				<div class="image"></div><div class="text"><font size="7">Entropy</font><BR><font size="6">Энтропия дискретного источника.</font></div>
+				<page_count>1</page_count>
 			</div>		
 		</header>
 		<div class="body">
@@ -223,14 +238,15 @@
 		\end{equation}
 		Скорость передачи
 		\begin{equation}
-			R = H(x) - H_x(y)
+			R = H(x) - H_y(x)
 		\end{equation}			
 		\begin{equation}
-			R = -\int\limits_{-\infty}^{\infty}p(x)\log p(x) dx + \int\limits_{-\infty}^{\infty}\int\limits_{-\infty}^{\infty}p(x,y)\log \frac{p(x,y)}{p(x)} dxdy=\int\limits_{-\infty}^{\infty}\int\limits_{-\infty}^{\infty}p(x,y)\log \frac{p(x,y)}{p(x)p(y)} dxdy
+			R = -\int\limits_{-\infty}^{\infty}p(x)\log p(x) dx + \int\limits_{-\infty}^{\infty}\int\limits_{-\infty}^{\infty}p(x,y)\log \frac{p(x,y)}{p(y)} dxdy=
+			\int\limits_{-\infty}^{\infty}\int\limits_{-\infty}^{\infty}p(x,y)\log \frac{p(x,y)}{p(x)p(y)} dxdy
 		\end{equation}			
 		Так как 
 		\begin{equation}
-			\int\limits_{-\infty}^{\infty}\int\limits_{-\infty}^{\infty}p(x,y)\log p(x) dxdy=\int\limits_{-\infty}^{\infty}p(x)\log p(x)
+			\int\limits_{-\infty}^{\infty}\int\limits_{-\infty}^{\infty}p(x,y)\log p(x) dxdy=\int\limits_{-\infty}^{\infty}p(x)\log p(x)dx
 		\end{equation}			
     </page>
 
@@ -272,20 +288,166 @@
     <page size="A5">
 		<header>
 			<div class="header">
-				<div class="image"></div><div class="text"><font size="7">Passband signal</font><BR><font size="6">Полосовая модуляция.</font></div>
+				<div class="image"></div><div class="text"><font size="7">Passband signal</font><BR><font size="6">Полосовой сигнал.</font></div>
 			</div>		
 		</header>
 		<div class="body">
-			Сигнал \(s=(s_1,s_2, \ldots s_n)\) ограниченный в полосе \(W\) может быть однозначно представлен \(n=2WT\) символами на интервале \(T\). Расположение этого участка на частотной оси не влияет на пропускную способность. 
-			Пусть центральная частота равна \(\omega_0\)
+			Сигнал \(s(t)\) ограниченный в полосе \(W\) может быть однозначно представлен \(N=2WT\) символами \(s_1,s_2, \ldots s_N\) на интервале \(T\). При этом 
+			абсолютное расположение на частотной оси не определено - спектр \(S(\omega)\) дискретной последовательности \(s_n\) является периодической функцией 
+			частоты с периодом \(W=\frac{N}{2T}\). Обратное преобразование Фурье действительнозначного полосового сигнала может быть представлено в виде:
+			\begin{equation}
+			s_n = \int\limits_{-\omega_0-W/2}^{-\omega_0+W/2}S(\omega)e^{j\omega n}d\omega+\int\limits_{\omega_0-W/2}^{\omega_0+W/2}S(\omega)e^{j\omega n}d\omega=
+			\Re\left[\int\limits_{\omega_0-W/2}^{\omega_0+W/2}S(\omega)e^{j\omega n}d\omega\right]			
+			\label{passband_signal}
+			\end{equation}			
 			
-			<iframe frameborder="0" style="width:100%;height:200px;" src="https://www.draw.io/?lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=passband%20spectre.xml#Uhttps%3A%2F%2Fraw.githubusercontent.com%2Festel1%2Fit6%2Fmaster%2Fcourse_materials_umk%2Fpassband%2520spectre.xml"></iframe>
-			
-			Известно, что последовательность длины \(n\) может быть однозначно представлена \(n\) коэффициентами Фурье (в предположении что она периодическая). Так как сигнал \(s\) имеет
-			ненулевую мощность лишь в указанной полосе, то и все компонеты спектра должны принадлежать той же области. Для этого каждую компоненту разложения Фурье необходимо сдвинуть 
-			по частоте на \(\omega_0\), т.е. вместо \(e^{-j\omega m}\) следует использовать \(e^{-j(\omega+\omega_0)m}=e^{-j\omega m}e^{-j\omega_0 m}\).
+			<iframe frameborder="0" style="width:100%;height:207px;" src="https://www.draw.io/?lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=passband%20spectre.xml#Uhttps%3A%2F%2Fraw.githubusercontent.com%2Festel1%2Fit6%2Fmaster%2Fcourse_materials_umk%2Fpassband%2520spectre.xml"></iframe>						
 		</div>
    </page>
 
+    <page size="A5">
+		<header>
+			<div class="header">
+				<div class="image"></div><div class="text"><font size="7">Baseband signal</font><BR><font size="6">Cигнал в базовой полосе частот.</font></div>
+			</div>		
+		</header>
+		<div class="body">
+			<iframe frameborder="0" style="width:100%;height:207px;" src="https://www.draw.io/?lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=baseband_spectre.xml#Uhttps%3A%2F%2Fraw.githubusercontent.com%2Festel1%2Fit6%2Fmaster%2Fcourse_materials_umk%2FIMAGES%2Fbaseband_spectre.xml"></iframe>			
+			Путем замены переменной интервал интегрирования в выражении \((\ref{passband_signal}\)) может быть центрирован около нуля:
+			\begin{equation}
+			s_n = \Re\left[\int\limits_{\omega_0-W/2}^{\omega_0+W/2}S(\omega)e^{j\omega n}d\omega\right]=
+				\Re\left[\int\limits_{-W/2}^{W/2}S(\omega)e^{j(\omega+\omega_0) n}d\omega\right]=
+				\Re\left[e^{j\omega_0 n}\int\limits_{-W/2}^{W/2}S(\omega)e^{j\omega n}d\omega\right]
+			\end{equation}						
+			Введем обозначение
+			\begin{equation}
+			x_n = \int\limits_{-W/2}^{W/2}S(\omega)e^{j\omega n}d\omega
+			\end{equation}									
+		</div>
+   </page>
+
+    <page size="A5">
+		<header>
+			<div class="header">
+				<div class="image"></div><div class="text"><font size="7">Baseband signal</font><BR><font size="6">Cигнал в базовой полосе частот.</font></div>
+			</div>		
+		</header>
+		<div class="body">
+		Последовательность \(x_n\) определяет сигнал в базовой полосе частот \(-\frac{W}{2}\ldots \frac{W}{2}\). 
+		Последовательность \(s_n\) определяет полосовой сигнал на радиочастоте.
+		\begin{equation}
+		s_n = \Re\left[e^{j\omega_0 n}\int\limits_{-W/2}^{W/2}S(\omega)e^{j\omega n}d\omega\right]=\Re\left[e^{j\omega_0 n}x_n\right]
+		\end{equation}											
+		Примеры
+		<ol>
+			<li>Сигнал в базовой полосе \(x_n=const=1\). Радиосигнал \(s_n = cos(\omega_0 n)\)</li>
+			<li>Сигнал в базовой полосе \(x_n=const=e^{j\frac{\pi}{2}}\). Радиосигнал \(s_n = \cos(\omega_0 n + \frac{\pi}{2})\)</li>
+			<li>Сигнал в базовой полосе \(x_n=const=10e^{j\frac{\pi}{2}}\). Радиосигнал \(s_n = 10\cos(\omega_0 n + \frac{\pi}{2})\)</li>
+		</ol>
+		Последовательность \(x_n\) в общем случае - последовательность комплекснозначных чисел.
+		</div>
+   </page>
+   
+    <page size="A5">
+		<header>
+			<div class="header">
+				<div class="image"></div><div class="text"><font size="7">Keying/Mapping</font><BR><font size="6">Модуляция в базовой полосе.</font></div>
+			</div>		
+		</header>
+		<div class="body">
+			<p align="center"><img src="https://www.researchgate.net/profile/Arun_Agarwal5/publication/287208899/figure/fig4/AS:307948250255363@1450431992487/BPSK-4-QAM-and-16-QAM-constellation-diagrams-10.png" width="600" align="center"></p>
+		</div>
+   </page>
+   
+    <page size="A5">
+		<header>
+			<div class="header">
+				<div class="image"></div><div class="text"><font size="7">AWGN Channel</font><BR><font size="6">Модель канала AWGN.</font></div>
+			</div>		
+		</header>
+		<div class="body">
+		Канал с аддитивным белым гауссовым шумом:
+		\begin{equation}
+			r_n = x_n + e_n
+		\end{equation}
+		Плотность распределения шума:
+		\begin{equation}
+			p(e_n) = \frac{1}{\sigma_e\sqrt{2\pi}}e^{-\frac{e_n^2}{2\sigma_e^2}}
+		\end{equation}		
+		</div>
+   </page>
+   
+    <page size="A5">
+		<header>
+			<div class="header">
+				<div class="image"></div><div class="text"><font size="7">Demapping</font><BR><font size="6">Демодуляция.</font></div>
+			</div>		
+		</header>
+		<div class="body">
+		\begin{equation}
+			p(x_n|r) = \frac{q_n p(r|x_n)}{\sum_{k=1}^K q_k p(r|x_k)}
+		\end{equation}		
+		\begin{equation}
+			p(r|x_k) = \frac{1}{2\pi\sigma_e}e^{\frac{(r-x_k)^*(r-x_k)}{2\sigma_e^2}}
+		\end{equation}		
+		\begin{equation}
+			d_k(r) = -\frac{1}{2}(r-x_k)^*(r-x_k)
+		\end{equation}		
+		Следовательно демодуляция сигнала \(r\) на фоне белого гаусового шума сводится к поиску ближайшего символа \(x_k\) к принятому сигналу \(r\) на комплексной плоскости.
+		</div>
+   </page>
+   
+    <page size="A5">
+		<header>
+			<div class="header">
+				<div class="image"></div><div class="text"><font size="7">Fading channel model</font><BR><font size="6">Искажения в канале.</font></div>
+			</div>		
+		</header>
+		<div class="body">
+		Канал с замираниями, частотно-селективный канал, частотно-селективные помехи.
+		<img src="">
+		<p align="center"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWlAcQoRy9nYLkKONtthNzY6rD79CpvcMLemo37v4z_riIXt4GXA" align="center,middle"></p>		
+		</div>
+   </page>
+   
+    <page size="A5">
+		<header>
+			<div class="header">
+				<div class="image"></div><div class="text"><font size="7">Adaptive equalizer</font><BR><font size="6">Адаптивный эквалайзер с обратной связью по решению.</font></div>
+			</div>		
+		</header>
+		<div class="body">
+		<iframe frameborder="0" style="width:100%;height:259px;" src="https://www.draw.io/?lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=adapt_eqalizer.xml#Uhttps%3A%2F%2Fraw.githubusercontent.com%2Festel1%2Fit6%2Fmaster%2Fcourse_materials_umk%2FIMAGES%2Fadapt_eqalizer.xml"></iframe>
+		<div class="footer">2. Джиган В.И. Адаптивная фильтрация сигналов: теория и алгоритмы. М.:Техносфера, 2014.<BR>
+		3. Уидроу Б., Стирнз С. Адаптивная обработка сигналов. М.: Радио и связь, 1989. - 440 с.: ил.</div>
+		</div>
+   </page>
+   
+    <page size="A5">
+		<header>
+			<div class="header">
+				<div class="image"></div><div class="text"><font size="7">LMS</font><BR><font size="6">Алгоритм LMS.</font></div>
+			</div>		
+		</header>
+		<div class="body">
+		Ошибка эквалайзера:
+		\begin{equation}
+		\varepsilon_n=d_n-y_n
+		\end{equation}				
+		Критерий оптимизации
+		\begin{equation}
+		\min J_n = \min \varepsilon^*_n \cdot \varepsilon_n
+		\end{equation}				
+		Эквалайзер:
+		\begin{equation}
+		y_n = \sum\limits_{m=-M}^M c_n(m) \cdot r_{n-m}
+		\end{equation}						
+		Адаптация:
+		\begin{equation}
+		c_{n+1}(m) = c_n(m) -\mu \frac{\partial (\varepsilon^*_n \cdot \varepsilon_n)}{\partial c_n(m)}=c_n(m) +\mu \varepsilon_n r^*_{n-m}
+		\end{equation}								
+		</div>
+   </page>
+   
 </body>
 </html>
