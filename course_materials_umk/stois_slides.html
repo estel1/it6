@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <style>
+		body {
+		  background: rgb(0,74,134); 
+   		  counter-reset: page_num ;
+		}
+		page {
+		  background: white;
+		  display: block;
+		  margin: .5cm auto;
+		  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+		}
+		page[size="A5"] {  
+		  width: 21cm;
+		  height: 14.8cm; 
+		}
+		page[size="A4"] {  
+		  width: 29.7cm;
+		  height: 21cm; 
+		}
+		page[size="A4"][layout="portrait"] {
+		  width: 29.7cm;
+		  height: 21cm;  
+		}
+		@media print {
+		  body, page {
+			margin: 0;
+			box-shadow: 0;
+		  }
+		}
+		header {
+			padding: 0 0 0 0 ;
+			color: white;
+			background-color: rgb(0,130,200) ;
+			clear: bottom;
+			text-align: left;
+   		    counter-reset: page_num ;
+		}
+		
+		.header {
+			border:1px solid darkgray ;
+		}
+
+		.header .image {
+			background: url("https://www.mirea.ru/images/logo_mgupi.png") no-repeat;
+			width: 100px;
+			height: 90px;
+			border:0px solid green;
+		}
+
+		.header .text {
+			font: x-large Times New Roman ;
+			border:0px solid blue;
+		}
+
+		.header .image, 
+		.header .text {
+			display: inline-block;
+			vertical-align: middle;
+		}
+		.body {
+			margin : 5px ;
+		}
+		.page_count :
+		{
+			width: 100px;
+			height: 90px;
+			content: "page"+counter(page_num) ;
+			counter-increment: page_num ;
+		}
+		.page_count .text {
+			border:2px solid white;
+			text-align: right;			
+			font: x-large Times New Roman ;
+		}
+	</style>
+	<script type="text/javascript" async
+		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+	<script type="text/x-mathjax-config">
+		MathJax.Hub.Config({
+		TeX: { equationNumbers: { autoNumber: "AMS" } }
+		});
+	</script>
+</head>
+<body>
+
+    <page size="A5">
+		<header>
+			<div class="header">
+				<div class="image"></div><div class="text"><font size="7">Hough transform</font><BR><font size="6">Преобразование Хафа.</font></div>
+				<page_count>1</page_count>
+			</div>		
+		</header>
+		<div class="body">
+		<a href="https://i.ytimg.com/vi/5Jido7ui-Hc/hqdefault.jpg"></a>
+		<ul>
+		 <li>Алгоритм k-средних</li>
+		 <li>Алгоритм сегментации по водоразделам</li>
+		 <li>Canny Edge Detection</li>
+		 <li>Hough Transform</li>
+		 </ul>		
+		</div>
+
+		<div class="footer">
+		<div class="body">
+		1. <a href="https://arxiv.org/abs/1703.06870">Kaiming He, Georgia Gkioxari, Piotr Dollár, Ross Girshick </a>. <BR>
+		2. <a href="https://github.com/facebookresearch/Detectron">github.com/facebookresearch/Detectron</a>.
+		</div>
+		</div>
+   </page>
+   
+    <page size="A5">
+		<header>
+			<div class="header">
+				<div class="image"></div><div class="text"><font size="7">Mask RCNN</font><BR><font size="6">Mask RCNN.</font></div>
+				<page_count>1</page_count>
+			</div>		
+		</header>
+		<div class="body">
+		<img src="https://i1.ytimg.com/vi/OOT3UIXZztE/0.jpg"
+		</div>
+   </page>
+   
+    <page size="A5">
+		<header>
+			<div class="header">
+				<div class="image"></div><div class="text"><font size="7">Сегментация</font><BR><font size="6">Обнаружение .</font></div>
+				<page_count>1</page_count>
+			</div>		
+		</header>
+		<div class="body">
+		<img src="https://i.ytimg.com/vi/5Jido7ui-Hc/hqdefault.jpg">
+		</div>
+		<div class="footer">1. C. E. Shannon, Bell Syst. Tech. J. 27, 379 (1948). </div>		
+   </page>
+
+</body>
+</html>
